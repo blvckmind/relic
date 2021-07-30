@@ -1,0 +1,17 @@
+.horizontal-form {
+    display: flex;
+    flex-direction: row;
+    /*padding:5px; !* this *!*/
+}
+
+.horizontal-form > div {
+    flex: 1 1 auto;
+    margin-right: 5px; /* and that, will result in a 10px gap */
+}
+
+.horizontal-form-50-percent {
+    flex-basis: 50%;
+}
+
+
+

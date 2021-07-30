@@ -1,0 +1,275 @@
+a {
+    color: white;
+}
+
+textarea {
+    font-family: 'Fira Code', monospace;
+    text-rendering: optimizeLegibility;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+}
+
+body {
+    background: #3f3636;
+    margin: 0;
+    /*font-family: 'Roboto', sans-serif;*/
+    font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    /*font-size: 1.2rem;*/
+    color: #ffffff;
+    height: 100%;
+}
+
+.non-visible {
+    visibility: hidden;
+}
+
+.nanobar {
+    width: 100%;
+    height: 4px;
+    z-index: 9999;
+    top: 0
+}
+
+.bar {
+    width: 0;
+    height: 50%;
+    transition: height .3s;
+    background: #414b5e;
+}
+
+.padding-10px {
+    padding: 10px;
+}
+
+
+/*Content box*/
+.content-box {
+
+}
+
+.margin-top-10px {
+    margin-top: 10px;
+}
+.margin-top-2px {
+    margin-top: 2px;
+}
+
+.margin-top-20px {
+    margin-top: 20px;
+}
+
+.content-box-padding {
+    padding: 20px;
+}
+
+.content-box-dark {
+    /*background-color: #414b5e !important;*/
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.content-box-border {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px !important;
+}
+
+@media screen and (max-width: 900px) {
+    .content-box-border {
+        border-radius: 0 !important;
+    }
+}
+
+
+/*Table*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    font-weight: 700;
+    padding: 10px 10px 0;
+
+}
+
+td {
+    text-align: left;
+    padding: 15px;
+}
+
+th {
+    padding: 15px;
+}
+
+tr {
+    /*padding: 30px;*/
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.3);*/
+}
+
+table tr:last-child {
+    border: 0;
+}
+
+/*input*/
+input, textarea, select {
+    outline: 0;
+    padding: 10px;
+    height: 40px;
+
+    font-size: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    -webkit-transition: border-color .2s ease-in-out;
+    transition: border-color .2s ease-in-out;
+}
+
+input[class="small"], button[class~="small"] {
+    height: 28px;
+    padding: 2px 10px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+
+    min-width: unset;
+    min-height: 28px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+}
+
+input:hover, textarea:hover, select:hover {
+    border-color: #00b0f4;
+}
+
+/*flex*/
+.main-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+button {
+    outline: 0;
+    height: 32px;
+    min-width: 130px;
+    min-height: 32px;
+    border: 0;
+
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    padding: 2px 16px;
+}
+
+.fake-button[class~="easy"]{
+    outline: 0;
+    height: 32px;
+    min-width: 130px;
+    min-height: 32px;
+    border: 0;
+
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    padding: 5px 5px;
+}
+
+.fake-button-element {
+}
+
+.text_box, #textbox {
+    /*height: calc(100% - 200px);*/
+    /*height: calc(100%);*/
+    height: 100%;
+    box-sizing: border-box;
+}
+
+
+.circular-main {
+    border-radius: 40% !important;
+    font-size: 28px;
+}
+
+.circular, .circular-photo {
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.circular[class~="small"], .circular-photo[class~="small"] {
+    width: 32px;
+    height: 32px;
+}
+
+.circular:hover {
+    border-radius: 40%;
+}
+
+.circular img {
+    width: auto;
+    height: 100%;
+    /*margin-left: -50px;*/
+}
+
+.circular-icon {
+}
+
+.circular-icon-element, .user-icon-element {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.content-box-header-inner {
+    padding: 0 10px;
+}
+
+.content-box-header-inner-child-flexbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.content-box-header-inner-child-flexbox > div {
+    flex: 1 1 auto;
+    margin-right: 10px;
+    align-items: center;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.wait {
+    cursor: wait;
+}
+
+.margin-left-5px {
+    margin-left: 5px;
+}
+
+.margin-left-10px {
+    margin-left: 10px;
+}
+
+.modal-content{
+    padding: 20px;
+}

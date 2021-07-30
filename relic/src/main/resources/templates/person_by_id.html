@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml"
+      lang="US">
+<head>
+    <div th:replace="fragments/head-additional-tags"></div>
+</head>
+<body>
+<div id="app" class="non-visible">
+    <div class="content-box">
+        <div class="content-box-padding">
+            <input name="title" v-model="person.firstName" type="text" placeholder="">
+            <input name="title" class="margin-top-10px" v-model="person.lastName" type="text" placeholder="">
+            <textarea id="textbox" onkeyup="textAreaAdjust(this)" class="margin-top-10px" style="resize: none;" name="body" v-model="person.body"></textarea>
+            <button v-on:click="update_person()" class="margin-top-10px">{{ button_text }}</button>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/js-imports"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let person_id_from_model = /*[[${person_id}]]*/ null;
+    /*]]>*/
+</script>
+
+<script src="/assets/js/person_by_id.js"></script>
+</body>
+</html>

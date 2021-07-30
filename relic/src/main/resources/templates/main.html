@@ -1,0 +1,199 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      lang="US">
+<head>
+    <title>Relic: Address book</title>
+    <meta th:replace="fragments/head-additional-tags"/>
+</head>
+
+<body>
+<div id="app" class="non-visible">
+    <transition name="fade" leave-active-class="">
+        <div v-if="page == 'app'" id="inner_app" class="app_box" style="animation-duration: 1s">
+            <div id="projects">
+                <div v-on:click="content_menu = 'all_projects'"
+                     class="circular circular-main circular-icon margin-top-10px pointer">
+                    <i class="fas fa-eye  circular-icon-element"></i>
+                </div>
+
+                <!--                <div class="margin-top-10px">-->
+                <!--                    _____-->
+                <!--                </div>-->
+
+                <!--                <div class="circular margin-top-10px pointer">-->
+                <!--                    <img src="" alt=""/>-->
+                <!--                </div>-->
+
+                <div class="circular circular-icon margin-top-10px pointer">
+                    <i class="fas fa-plus circular-icon-element"></i>
+                </div>
+
+            </div>
+
+            <div id="main_window">
+
+                <div id="top_bar" class="shadow-style">
+                    <div id="person_list_header">
+                        <div class="padding-10px">
+
+                            <input v-on:keyup.enter="search_params.page = 1; fetchPersons(false); next_locked = false; "
+                                   v-model="search_params.name" type="text"
+                                   class="small"
+                                   placeholder="Search...">
+
+                        </div>
+                    </div>
+
+                    <div id="content_box_header" class="shadow-style">
+                        <div class="padding-10px content-box-header-inner two-reverse-side-row-elements">
+                            <div>
+
+                                <div class="content-box-header-inner-child-flexbox"
+                                     v-if="content_menu == 'all_projects'">
+                                    <div>
+                                        <i class="fas fa-user-friends"></i>
+                                        <span class="strong"> All projects</span>
+                                    </div>
+
+                                    <div>
+                                        <button class="small green pointer" v-on:click="draw_add_person()">Add new
+                                            person
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="content-box-header-inner-child-flexbox"
+                                     v-if="content_menu == 'open_person'">
+                                    <div>
+                                        <i class="fas fa-user"></i> <!-- uses regular style -->
+                                        <span class="strong">Person:</span> {{ u_get_short_name(person) }}
+                                    </div>
+                                    <div>
+                                        <button v-if="val_get_person.changed" v-on:click="update_person()"
+                                                class="small pointer">Save updates
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="content-box-header-inner-child-flexbox" v-if="content_menu == 'add_person'">
+                                    <div>
+                                        <i class="fas fa-user"></i> <!-- uses regular style -->
+                                        <span class="strong">Add person</span>
+                                    </div>
+
+                                    <div>
+                                        <button v-if="add_person.saving == false && v_add_new_person()"
+                                                v-on:click="create_new_person()"
+                                                class="small green pointer">Save
+                                        </button>
+                                        <button v-if="add_person.saving == true" disabled=""
+                                                class="small disabled wait">
+                                            <i class="fas fa-clock"></i>
+                                            <span class="margin-left-5px">Saving new person</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <i onclick="window.location.href='/lock'" class="fas fa-lock pointer"></i>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="bottom_window">
+                    <div id="person_list">
+                        <div class="padding-10px">
+                            <div class="two-reverse-side-row-elements">
+                                <div>
+                                    Persons list
+                                </div>
+                                <div>
+                                    <i v-if="content_menu != 'add_person'" v-on:click="draw_add_person()"
+                                       class="pointer fas fa-user-plus"></i>
+                                </div>
+                            </div>
+
+
+                            <div class="margin-top-10px">
+
+                                <div class="margin-top-2px">
+                                    <div v-if="content_menu == 'add_person' || add_person.filling"
+                                         v-bind:class="{ 'selected': person_index == null }"
+                                         v-on:click="draw_add_person()"
+                                         class="easy fake-button">
+                                        <div class="two-reverse-side-row-elements flex-start">
+                                            <div class="small circular-photo circular-user-icon">
+                                                <i class="fas fa-user-plus user-icon-element"></i>
+                                            </div>
+                                            <div class="margin-left-10px">
+                                                {{ u_get_short_name(add_person.data, true) }}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <i v-on:click="u_clean_add_person_data()" class="fas fa-broom pointer"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="margin-top-2px" v-for="(person, index) in persons">
+                                    <div v-on:click="get_person(person.id, index)"
+                                         v-bind:class="{'selected': person_index == index && content_menu == 'open_person',
+                                         'pointer': !(person_index == index && content_menu == 'open_person')}"
+                                         class="easy fake-button">
+                                        <div class="two-reverse-side-row-elements flex-start">
+                                            <div v-bind:style="{ background: '#' + person.color }"
+                                                 class="small circular-photo circular-user-icon">
+                                                <i class="fas fa-user user-icon-element"></i>
+                                            </div>
+                                            <div class="margin-left-10px">
+                                                <span v-if="person_index == index && content_menu == 'open_person' && val_get_person.changed">
+                                                    *
+                                                </span>
+                                                {{ u_get_short_name(person) }}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <i v-if="person_index == index && content_menu == 'open_person'"
+                                               v-on:click="draw_modal_delete_user(u_get_short_name(person), person.id, index)"
+                                               class="pointer far fa-trash-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="content_box">
+
+                        <div class="padding-10px">
+                            <div th:replace="fragments/vue/vue-main-open-person"></div>
+                            <div th:replace="fragments/vue/vue-main-add-person"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </transition>
+</div>
+
+<div th:replace="fragments/js-imports"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let person_search_parameters = {
+        name: /*[[${name}]]*/ null,
+        page: /*[[${pageNum}]]*/ 1
+    };
+    /*]]>*/
+</script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

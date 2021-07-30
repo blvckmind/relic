@@ -1,0 +1,98 @@
+.app_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /*flex-wrap: wrap;*/
+    align-items: stretch;
+    height: 100%;
+}
+
+#projects {
+    flex-basis: 72px;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center;*/
+    align-items: center;
+
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#main_window {
+    flex-basis: calc(100vw - 72px);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /*align-items: stretch;*/
+}
+
+#top_bar {
+    flex-basis: 48px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: stretch;
+
+    z-index: 2;
+    position: relative;
+}
+
+#person_list_header, #person_list {
+    flex-basis: 240px;
+}
+
+#content_box_header {
+    flex-basis: calc(100vw - 240px - 72px);
+
+    /*display: flex;*/
+    /*align-items: center;*/
+
+    line-height: 48px;
+}
+
+#content_box_header div {
+    vertical-align: middle;
+}
+
+#bottom_window {
+    flex-basis: calc(100vh - 48px) !important;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: stretch;
+    /*height: 100%;*/
+}
+
+#person_list {
+    height: calc(100vh - 48px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#content_box {
+    flex-basis: calc(100vw - 240px - 72px);
+    height: calc(100vh - 48px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.fake-button, .two-reverse-side-row-elements {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.two-reverse-side-row-elements[class~="flex-start"] {
+    justify-content: flex-start !important;
+}
+
+
+
+

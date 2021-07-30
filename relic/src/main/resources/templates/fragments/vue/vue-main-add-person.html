@@ -1,0 +1,109 @@
+<div v-if="content_menu == 'add_person'" style="animation-duration: 50ms" class="horizontal-form">
+
+    <div>
+        <div>
+            <span>Name</span>
+        </div>
+        <div class="horizontal-form margin-top-10px">
+            <div>
+                <input v-model="add_person.data.firstName" placeholder="First Name" type="text">
+            </div>
+
+            <div>
+                <input v-model="add_person.data.lastName" placeholder="Last Name" type="text">
+            </div>
+            <div>
+                <input v-model="add_person.data.patronymic" placeholder="Patronymic" type="text">
+            </div>
+        </div>
+
+        <div class="margin-top-20px">
+            <span>Other names</span>
+        </div>
+        <div class="horizontal-form margin-top-10px">
+            <input v-model="add_person.data.otherNames" placeholder="Other names like nicknames, alter egos, etc." type="text">
+        </div>
+
+        <div class="margin-top-20px">
+            <span>Date of birth</span>
+        </div>
+        <div class="horizontal-form margin-top-10px">
+            <div>
+                <select v-model="add_person.data.dobDay">
+                    <option selected="" value="">Day</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                    <option>13</option>
+                    <option>14</option>
+                    <option>15</option>
+                    <option>16</option>
+                    <option>17</option>
+                    <option>18</option>
+                    <option>19</option>
+                    <option>20</option>
+                    <option>21</option>
+                    <option>22</option>
+                    <option>23</option>
+                    <option>24</option>
+                    <option>25</option>
+                    <option>26</option>
+                    <option>27</option>
+                    <option>28</option>
+                    <option>29</option>
+                    <option>30</option>
+                    <option>31</option>
+                </select>
+            </div>
+            <div>
+                <select v-model="add_person.data.dobMonth">
+                    <option selected="" value="">Month</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>>
+                </select>
+            </div>
+            <div>
+                <select v-model="add_person.data.dobYear">
+                    <option selected="" value="">Year</option>
+                    <option v-for="year in static.years" v-bind:value="year">
+                        {{ year }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="margin-top-20px">
+            <span v-on:click="draw_fullscreen('Information: ' + add_person.data.firstName, 'new_user_body')" class="pointer">Information</span>
+        </div>
+        <div class="margin-top-10px pointer">
+            <textarea id="new_user_body" v-model="add_person.data.information" placeholder="About" class="text_box"
+                      style="resize: none;" name="body"></textarea>
+        </div>
+
+
+        <div class="margin-top-20px">
+            <div class="margin-top-20px"></div>
+        </div>
+
+    </div>
+
+</div>
