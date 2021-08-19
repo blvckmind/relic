@@ -8,6 +8,10 @@
 
     <include file="01-changeset-calendar_units-table.xml" relativeToChangelogFile="true" />
 
+    <include file="01-changeset-images-table.xml" relativeToChangelogFile="true" />
+
     <include file="01-changeset-persons-table.xml" relativeToChangelogFile="true" />
+
+    <include file="01-changeset-projects-table.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>

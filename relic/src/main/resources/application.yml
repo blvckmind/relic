@@ -1,18 +1,22 @@
-server:
+relic:
   port: 8172
+  database:
+    path: "./databases/relic-database.h2"
+
+server:
+  port: ${relic.port}
+  shutdown: graceful
 
 spring:
-  security:
-    user:
-      name: blvckmind
-      password: 12345678
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
 
   profiles:
-    active: dev
+    active: prod
 
   datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:file:./databases/relic-database.h2
+    url: jdbc:h2:file:${relic.database.path}
     username: sa
     password: password
 
@@ -25,6 +29,3 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
     enabled: true
-
-
-

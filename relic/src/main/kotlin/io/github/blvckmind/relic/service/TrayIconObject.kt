@@ -3,7 +3,6 @@ package io.github.blvckmind.relic.service
 import io.github.blvckmind.relic.RelicAddressBookApplication
 import java.awt.*
 import javax.imageio.ImageIO
-import kotlin.system.exitProcess
 import java.awt.MenuItem
 
 
@@ -27,11 +26,7 @@ object TrayIconObject {
 
         trayMenu.addSeparator()
 
-        val item = MenuItem("Shutdown")
-        item.addActionListener { exitProcess(0) }
-        trayMenu.add(item)
-
-        val pic: Image = ImageIO.read(RelicAddressBookApplication::class.java.classLoader.getResourceAsStream("relic.png"))
+        val pic: Image = ImageIO.read(RelicAddressBookApplication::class.java.classLoader.getResourceAsStream("images/relic.png"))
         val trayIcon = TrayIcon(pic, APPLICATION_NAME, trayMenu)
         trayIcon.isImageAutoSize = true
         val tray = SystemTray.getSystemTray()

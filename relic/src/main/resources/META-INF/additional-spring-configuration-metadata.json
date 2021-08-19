@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "relic.authorization.password",
+      "type": "java.lang.String",
+      "description": "Description for relic.authorization.password."
+    },
+    {
+      "name": "relic.authorization.outside-access",
+      "type": "java.lang.Boolean",
+      "description": "Description for relic.authorization.outside-access."
+    },
+    {
+      "name": "relic.database.path",
+      "type": "java.lang.String",
+      "description": "Description for relic.database.path."
+    },
+    {
+      "name": "relic.port",
+      "type": "java.lang.Integer",
+      "description": "Description for relic.port."
+    }
+  ]
+}

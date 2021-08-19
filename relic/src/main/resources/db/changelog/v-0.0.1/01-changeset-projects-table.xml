@@ -5,14 +5,14 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="2" author="blvckmind">
+    <changeSet id="2" author="r.r.abdullaev">
         <sqlFile dbms="h2"
                  encoding="utf8"
                  endDelimiter="\nGO"
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"
-                 path="01-create-persons-table.sql"/>
+                 path="01-create-projects-table.sql"/>
 
         <rollback>
             <sqlFile dbms="h2"
@@ -21,7 +21,7 @@
                      relativeToChangelogFile="true"
                      splitStatements="true"
                      stripComments="true"
-                     path="01-drop-persons-table.sql"/>
+                     path="01-drop-projects-table.sql"/>
         </rollback>
     </changeSet>
 

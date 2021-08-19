@@ -36,7 +36,8 @@
                         <div class="padding-10px">
 
                             <input v-on:keyup.enter="search_params.page = 1; fetchPersons(false); next_locked = false; "
-                                   v-model="search_params.name" type="text"
+                                   v-model="search_params.name"
+                                   type="search"
                                    class="small"
                                    placeholder="Search...">
 

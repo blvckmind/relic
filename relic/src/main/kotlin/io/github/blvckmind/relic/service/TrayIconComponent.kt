@@ -1,35 +1,34 @@
 package io.github.blvckmind.relic.service
 
+import io.github.blvckmind.relic.config.ApplicationProperties
 import io.github.blvckmind.relic.util.notNull
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.ExitCodeGenerator
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.web.ServerProperties
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
 import java.awt.*
+import java.awt.datatransfer.Clipboard
+import java.awt.datatransfer.StringSelection
+import java.net.URI
 import javax.annotation.PostConstruct
 import kotlin.system.exitProcess
-import java.net.URI
-import org.springframework.boot.SpringApplication
 
 @Component
 class TrayIconComponent(
+    val applicationProperties: ApplicationProperties,
     val serverProperties: ServerProperties,
-    val configurableApplicationContext: ConfigurableApplicationContext,
-    @Value("\${spring.security.user.password}") private val password: String
+    val configurableApplicationContext: ConfigurableApplicationContext
 ) {
 
     @PostConstruct
     fun buildTrayMenu() {
-
         TrayIconObject.get().notNull {
             fillTrayIcon(it)
-            it.displayMessage("Relic", "Application started", TrayIcon.MessageType.NONE)
         }
-
     }
 
-    fun fillTrayIcon(trayIcon: TrayIcon){
+    fun fillTrayIcon(trayIcon: TrayIcon) {
         val trayMenu = trayIcon.popupMenu
         trayMenu.removeAll()
 
@@ -51,26 +50,30 @@ class TrayIconComponent(
         trayMenu.addSeparator()
 
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            val linksMenu = Menu("Links")
+
             /* Help item */
             val helpItem = MenuItem("Help")
             helpItem.addActionListener {
                 Desktop.getDesktop().browse(URI("https://github.com/blvckmind/relic/wiki"))
             }
-            trayMenu.add(helpItem)
+            linksMenu.add(helpItem)
 
             /* Issues item */
             val issuesItem = MenuItem("Issues")
             issuesItem.addActionListener {
                 Desktop.getDesktop().browse(URI("https://github.com/blvckmind/relic/issues"))
             }
-            trayMenu.add(issuesItem)
+            linksMenu.add(issuesItem)
 
             /* Contribute item */
             val contributeItem = MenuItem("Contribute")
             contributeItem.addActionListener {
                 Desktop.getDesktop().browse(URI("https://github.com/blvckmind/relic"))
             }
-            trayMenu.add(contributeItem)
+            linksMenu.add(contributeItem)
+
+            trayMenu.add(linksMenu)
         } else {
             /* Github item */
             val githubItem = MenuItem("github.com/blvckmind")
@@ -78,16 +81,25 @@ class TrayIconComponent(
             trayMenu.add(githubItem)
         }
 
-        /* Separator */
-        trayMenu.addSeparator()
-
         /* ShowPassword item */
-        val showPasswordItem = Menu("Show Password")
+        val showPasswordItem = Menu("Password")
         trayMenu.add(showPasswordItem)
 
         /* ShowPassword: Password item */
-        val passwordItem = MenuItem("'$password'")
-        passwordItem.isEnabled = false
+        val password = applicationProperties.authorization.password
+        val passwordItem = MenuItem("Copy to clipboard")
+        passwordItem.addActionListener {
+            val defaultToolkit = Toolkit.getDefaultToolkit()
+            val clipboard: Clipboard = defaultToolkit.systemClipboard
+
+            try {
+                clipboard.setContents(StringSelection(password), null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                passwordItem.isEnabled = false
+                passwordItem.label = "'$password'";
+            }
+        }
         showPasswordItem.add(passwordItem)
 
         /* Separator */
@@ -96,8 +108,12 @@ class TrayIconComponent(
         /* Shutdown item */
         val shutdownItem = MenuItem("Shutdown")
         shutdownItem.addActionListener {
+            trayMenu.removeAll()
+
             shutdownItem.isEnabled = false
             shutdownItem.label = "Shutting down..."
+            trayMenu.add(shutdownItem)
+
             SpringApplication.exit(configurableApplicationContext, ExitCodeGenerator { 0 })
             exitProcess(0)
         }

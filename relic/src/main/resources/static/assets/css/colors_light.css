@@ -1,23 +1,27 @@
 :root {
-    --color-strong: #0d1117;
-    --color-semistrong: #555f66;
-    --color-green: #5aa264;
+    --color-accent-easy: #6C7480;
+    --color-accent-medium: #2F3338;
+    --color-accent-strong: #0d1117;
+
+    --color-second-semimedium: #555f66;
     --color-modal-background: #eaebed;
-    --color-warn: #ed4245
+
+    --color-green: #5aa264;
+    --color-red: #ed4245
 }
 
 a, body, input::placeholder, textarea::placeholder, select::placeholder {
-    color: #6C7480 !important;
+    color: var(--color-accent-easy) !important;
 }
 
 input, textarea, select {
     border: 0 !important;
-    color: #2F3338;
+    color: var(--color-accent-medium);
 }
 
 button {
     color: #fff;
-    background-color: #2F3338;
+    background-color: var(--color-accent-medium);
 }
 
 
@@ -25,18 +29,18 @@ button[class~="green"] {
     background-color: var(--color-green);
 }
 button[class~="warn"] {
-    background-color: var(--color-warn);
+    background-color: var(--color-red);
 }
 button[class~="warn"] {
-    background-color: var(--color-warn);
+    background-color: var(--color-red);
 }
 
 button[class~="disabled"] {
-    background-color: #6C7480;
+    background-color: var(--color-accent-easy);
 }
 
 span[class~="strong"] {
-    color: var(--color-strong);
+    color: var(--color-accent-strong);
 }
 
 span[class~="green"] {
@@ -65,12 +69,12 @@ span[class~="green"] {
 }
 
 .circular-main {
-    background: var(--color-strong) !important;
+    background: var(--color-accent-strong) !important;
     color: white !important;
 }
 .circular-main:hover {
     background: white !important;
-    color: var(--color-strong) !important;
+    color: var(--color-accent-strong) !important;
 }
 
 .circular-user-icon {
@@ -85,11 +89,15 @@ span[class~="green"] {
 
 .fake-button[class~="easy"]:hover {
     background: #e8eaed;
-    color: var(--color-semistrong);
+    color: var(--color-second-semimedium);
 }
 .fake-button[class~="selected"], .fake-button[class~="selected"]:hover {
     background: #d4d7dc;
-    color: var(--color-strong);
+    color: var(--color-accent-strong);
+}
+
+input[class~="purge_input"]::-webkit-search-cancel-button, input[type~="search"]::-webkit-search-cancel-button {
+    background: var(--color-second-semimedium);
 }
 
 /* winbox */
@@ -99,7 +107,7 @@ span[class~="green"] {
 }
 
 .winbox.fullscreen {
-    background: var(--color-semistrong);
+    background: var(--color-second-semimedium);
 }
 
 .wb-body.relic {
@@ -109,7 +117,7 @@ span[class~="green"] {
 .wb-body {
     border-radius: 10px;
     background: var(--color-modal-background);
-    color: var(--color-strong);
+    color: var(--color-accent-strong);
 }
 
 .wb-title.relic {

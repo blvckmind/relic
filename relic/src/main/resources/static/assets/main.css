@@ -132,7 +132,7 @@ input, textarea, select {
     transition: border-color .2s ease-in-out;
 }
 
-input[class="small"], button[class~="small"] {
+input[class~="small"], button[class~="small"] {
     height: 28px;
     padding: 2px 10px;
     font-size: 14px;
@@ -272,4 +272,15 @@ button {
 
 .modal-content{
     padding: 20px;
+}
+
+input[class~="purge_input"]::-webkit-search-cancel-button, input[type~="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    border-radius:10px;
+    height: 14px;
+    width: 14px;
+}
+
+.transparent_background {
+    background: transparent !important;
 }

@@ -41,9 +41,7 @@ class PersonRestController(
     }
 
     @PutMapping("/update")
-    fun updatePerson(@RequestBody updatePersonDto: UpdatePersonDto): GetPersonDto {
-        return personDtoService.update(updatePersonDto)
-    }
+    fun updatePerson(@RequestBody updatePersonDto: UpdatePersonDto) = personDtoService.update(updatePersonDto)
 
     @DeleteMapping("/delete")
     fun deletePerson(@RequestParam("id") id: String) = personDtoService.delete(id)

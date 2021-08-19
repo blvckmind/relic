@@ -1,14 +1,20 @@
 package io.github.blvckmind.relic.config
 
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+import javax.annotation.PostConstruct
 
-
+@EnableWebSecurity
 @Configuration
-class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+class WebSecurityConfig(
+    val applicationProperties: ApplicationProperties,
+    val auth: AuthenticationManagerBuilder
+) : WebSecurityConfigurerAdapter() {
 
     private val csrfEnabled = false
 
@@ -39,4 +45,14 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             .deleteCookies("JSESSIONID")
             .invalidateHttpSession(true)
     }
+
+    @PostConstruct
+    fun addDefaultUser() {
+        auth
+            .inMemoryAuthentication()
+            .withUser("blvckmind")
+            .password("{noop}${applicationProperties.authorization.password}")
+            .roles("USER")
+    }
+
 }
