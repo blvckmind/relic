@@ -1,4 +1,4 @@
 rootProject.name = "relic"
 include("relic")
-include("domain")
+include("persistence")
 
