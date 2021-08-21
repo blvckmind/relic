@@ -97,7 +97,8 @@
                             </div>
 
                             <div>
-                                <i onclick="window.location.href='/lock'" class="fas fa-lock pointer"></i>
+                                <!--/*@thymesVar id="application_properties" type="io.github.blvckmind.relic.config.ApplicationProperties"*/-->
+                                <i th:if="${application_properties.authorization.outsideAccess}" onclick="window.location.href='/lock'" class="fas fa-lock pointer"></i>
                             </div>
 
 

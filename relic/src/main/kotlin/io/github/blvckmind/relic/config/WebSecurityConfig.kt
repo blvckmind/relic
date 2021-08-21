@@ -23,36 +23,44 @@ class WebSecurityConfig(
     }
 
     override fun configure(http: HttpSecurity) {
-        super.configure(http)
         if (!csrfEnabled) {
             http.csrf().disable()
         }
+
         http.headers().frameOptions().disable()
 
-        http.formLogin() // указываем страницу с формой логина
-            .loginPage("/password") // указываем action с формы логина
-            .loginProcessingUrl("/password") // указываем URL при неудачном логине
-            .failureUrl("/password?error") // Указываем параметры логина и пароля с формы логина
-            .usernameParameter("hidden_user")
-            .passwordParameter("password") // даем доступ к форме логина всем
-            .defaultSuccessUrl("/", true)
-            .permitAll()
+        if (applicationProperties.authorization.outsideAccess) {
+            super.configure(http)
+            http
+                .formLogin() // указываем страницу с формой логина
+                .loginPage("/password") // указываем action с формы логина
+                .loginProcessingUrl("/password") // указываем URL при неудачном логине
+                .failureUrl("/password?error") // Указываем параметры логина и пароля с формы логина
+                .usernameParameter("hidden_user")
+                .passwordParameter("password") // даем доступ к форме логина всем
+                .defaultSuccessUrl("/", true)
+                .permitAll()
 
-        http
-            .logout()
-            .logoutRequestMatcher(AntPathRequestMatcher("/lock"))
-            .logoutSuccessUrl("/")
-            .deleteCookies("JSESSIONID")
-            .invalidateHttpSession(true)
+            http
+                .logout()
+                .logoutRequestMatcher(AntPathRequestMatcher("/lock"))
+                .logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+        } else {
+            http.authorizeRequests().antMatchers("/**").permitAll()
+        }
     }
 
     @PostConstruct
     fun addDefaultUser() {
-        auth
-            .inMemoryAuthentication()
-            .withUser("blvckmind")
-            .password("{noop}${applicationProperties.authorization.password}")
-            .roles("USER")
+        if (applicationProperties.authorization.outsideAccess) {
+            auth
+                .inMemoryAuthentication()
+                .withUser("blvckmind")
+                .password("{noop}${applicationProperties.authorization.password}")
+                .roles("USER")
+        }
     }
 
 }

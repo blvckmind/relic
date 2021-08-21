@@ -1,6 +1,7 @@
 package io.github.blvckmind.relic.service
 
 import io.github.blvckmind.relic.RelicAddressBookApplication
+import io.github.blvckmind.relic.util.loggerFor
 import java.awt.*
 import javax.imageio.ImageIO
 import java.awt.MenuItem
@@ -8,6 +9,8 @@ import java.awt.MenuItem
 
 /* https://stackoverflow.com/questions/40571199/creating-tray-icon-using-javafx */
 object TrayIconObject {
+
+    private val log = loggerFor(TrayIconObject::class.java)
 
     private var globalTrayIcon: TrayIcon? = null
     private var inited = false
@@ -34,7 +37,7 @@ object TrayIconObject {
             tray.add(trayIcon)
             globalTrayIcon = trayIcon
         } catch (e: AWTException) {
-            e.printStackTrace()
+            log.error("Tray icon error", e)
         }
     }
 

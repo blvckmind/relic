@@ -1,6 +1,7 @@
 package io.github.blvckmind.relic.service
 
 import io.github.blvckmind.relic.config.ApplicationProperties
+import io.github.blvckmind.relic.util.loggerFor
 import io.github.blvckmind.relic.util.notNull
 import org.springframework.boot.ExitCodeGenerator
 import org.springframework.boot.SpringApplication
@@ -20,6 +21,8 @@ class TrayIconComponent(
     val serverProperties: ServerProperties,
     val configurableApplicationContext: ConfigurableApplicationContext
 ) {
+
+    private val log = loggerFor(TrayIconComponent::class.java)
 
     @PostConstruct
     fun buildTrayMenu() {
@@ -50,30 +53,27 @@ class TrayIconComponent(
         trayMenu.addSeparator()
 
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            val linksMenu = Menu("Links")
 
             /* Help item */
             val helpItem = MenuItem("Help")
             helpItem.addActionListener {
                 Desktop.getDesktop().browse(URI("https://github.com/blvckmind/relic/wiki"))
             }
-            linksMenu.add(helpItem)
+            trayMenu.add(helpItem)
 
             /* Issues item */
             val issuesItem = MenuItem("Issues")
             issuesItem.addActionListener {
                 Desktop.getDesktop().browse(URI("https://github.com/blvckmind/relic/issues"))
             }
-            linksMenu.add(issuesItem)
+            trayMenu.add(issuesItem)
 
             /* Contribute item */
             val contributeItem = MenuItem("Contribute")
             contributeItem.addActionListener {
                 Desktop.getDesktop().browse(URI("https://github.com/blvckmind/relic"))
             }
-            linksMenu.add(contributeItem)
-
-            trayMenu.add(linksMenu)
+            trayMenu.add(contributeItem)
         } else {
             /* Github item */
             val githubItem = MenuItem("github.com/blvckmind")
@@ -81,26 +81,31 @@ class TrayIconComponent(
             trayMenu.add(githubItem)
         }
 
-        /* ShowPassword item */
-        val showPasswordItem = Menu("Password")
-        trayMenu.add(showPasswordItem)
+        if (applicationProperties.authorization.outsideAccess){
+            /* Separator */
+            trayMenu.addSeparator()
 
-        /* ShowPassword: Password item */
-        val password = applicationProperties.authorization.password
-        val passwordItem = MenuItem("Copy to clipboard")
-        passwordItem.addActionListener {
-            val defaultToolkit = Toolkit.getDefaultToolkit()
-            val clipboard: Clipboard = defaultToolkit.systemClipboard
+            /* ShowPassword item */
+            val showPasswordItem = Menu("Password")
+            trayMenu.add(showPasswordItem)
 
-            try {
-                clipboard.setContents(StringSelection(password), null)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                passwordItem.isEnabled = false
-                passwordItem.label = "'$password'";
+            /* ShowPassword: Password item */
+            val password = applicationProperties.authorization.password
+            val passwordItem = MenuItem("Copy to clipboard")
+            passwordItem.addActionListener {
+                val defaultToolkit = Toolkit.getDefaultToolkit()
+                val clipboard: Clipboard = defaultToolkit.systemClipboard
+
+                try {
+                    clipboard.setContents(StringSelection(password), null)
+                } catch (e: Exception) {
+                    log.error("Error copying to clipboard", e)
+                    passwordItem.isEnabled = false
+                    passwordItem.label = "'$password'";
+                }
             }
+            showPasswordItem.add(passwordItem)
         }
-        showPasswordItem.add(passwordItem)
 
         /* Separator */
         trayMenu.addSeparator()
