@@ -25,17 +25,19 @@ const app = new Vue({
         content_menu: "all_projects",
 
         // Viewing person
-        val_get_person: {
-            error: false,
-            changed: false
+        view_person: {
+            data: {},
+            val_get_person: {
+                error: false,
+                changed: false
+            },
+            person_index: null,
+            button_text: "Save changes",
+            save_time: null,
+            save_time_updating: false,
+            saving_process: false,
+            interval_id: null,
         },
-        person: {},
-        person_index: null,
-        button_text: "Save changes",
-        save_time: null,
-        save_time_updating: false,
-        saving_process: false,
-        interval_id: null,
 
         // Adding person
         add_person: {
@@ -79,7 +81,7 @@ const app = new Vue({
     },
     methods: {
         fetchPersons: function (resume) {
-            this.person_index = null;
+            this.view_person.person_index = null;
             if (!resume) {
                 this.persons = [];
             }
@@ -193,80 +195,80 @@ const app = new Vue({
         },
         draw_add_person: function () {
             if (this.content_menu !== 'add_person') {
-                this.person_index = null;
+                this.view_person.person_index = null;
                 this.content_menu = 'add_person';
             }
         },
         get_person: function (id, index) {
-            if (this.person_index === index && this.content_menu === 'open_person') {
+            if (this.view_person.person_index === index && this.content_menu === 'open_person') {
                 return;
             }
-            clearInterval(this.interval_id);
-            this.button_text = "Save updates";
-            this.save_time_updating = false;
-            this.person_index = index;
+            clearInterval(this.view_person.interval_id);
+            this.view_person.button_text = "Save updates";
+            this.view_person.save_time_updating = false;
+            this.view_person.person_index = index;
 
             this.content_title = "Loading " + id + "...";
-            this.val_get_person.error = false;
+            this.view_person.val_get_person.error = false;
             axios.get('/api/person/id/' + id)
                 .then(response => {
                     if (response.data != null) {
-                        this.person = response.data
-                        this.val_get_person.changed = false;
+                        this.view_person.data= response.data
+                        this.view_person.val_get_person.changed = false;
                         this.content_menu = "open_person";
                     }
                 })
                 .catch(error => {
-                    this.val_get_person.error = true;
+                    this.view_person.val_get_person.error = true;
                     console.log(error);
                     this.drawError(error);
                 })
                 .then(() => {
-                    this.val_get_person.changed = this.val_get_person.error;
+                    this.view_person.val_get_person.changed = this.view_person.val_get_person.error;
                 });
         },
         update_person: function () {
-            this.saving_process = true;
+            this.view_person.saving_process = true;
             this.val_update_person.error = false;
-            this.button_text = "Saving..."
+            this.view_person.button_text = "Saving..."
 
-            axios.put('/api/person/update', this.person)
+            axios.put('/api/person/update', this.view_person.data)
                 .then(response => {
                     console.log(response);
                     if (response.data != null) {
-                        this.person = response.data;
+                        this.view_person.data= response.data;
 
                         let person_save_time = new Date();
-                        this.save_time = person_save_time;
-                        this.button_text = "Saved at " + person_save_time.toISOString().substr(11, 5);
+                        this.view_person.save_time = person_save_time;
+                        this.view_person.button_text = "Saved at " + person_save_time.toISOString().substr(11, 5);
 
                         /* Updating name in list */
-                        if (this.persons.length > this.person_index){
-                            let exist_id = this.persons[this.person_index].id
-                            if (exist_id === this.person.id){
-                                this.persons[this.person_index].firstName = this.person.firstName;
-                                this.persons[this.person_index].lastName = this.person.lastName;
-                                this.persons[this.person_index].patronymic = this.person.patronymic;
-                                this.persons[this.person_index].photoId = this.person.photoId;
+                        if (this.persons.length > this.view_person.person_index){
+                            let exist_id = this.persons[this.view_person.person_index].id
+                            if (exist_id === this.view_person.data.id){
+                                this.persons[this.view_person.person_index].firstName = this.view_person.data.firstName;
+                                this.persons[this.view_person.person_index].lastName = this.view_person.data.lastName;
+                                this.persons[this.view_person.person_index].patronymic = this.view_person.data.patronymic;
+                                this.persons[this.view_person.person_index].photoId = this.view_person.data.photoId;
                             }
                         }
                         /* End of Updating name in list */
 
-                        if (!this.save_time_updating) {
-                            this.save_time_updating = true;
-                            this.interval_id = window.setInterval(this.button_update_second, 10000);
+                        if (!this.view_person.save_time_updating) {
+                            this.view_person.save_time_updating = true;
+                            this.view_person.interval_id = window.setInterval(this.button_update_second, 10000);
                         }
                     }
                 })
                 .catch(error => {
                     this.val_update_person.error = true;
-                    this.button_text = "[x] Error (Time: " + new Date().toISOString().substr(11, 8) + ")";
+                    this.view_person.button_text = "[x] Error (Time: " + new Date().toISOString().substr(11, 8) + ")";
                     console.log(error);
                     this.drawError(error);
                 })
                 .then(() => {
-                    this.saving_process = false;
-                    this.val_get_person.changed = this.val_update_person.error;
+                    this.view_person.saving_process = false;
+                    this.view_person.val_get_person.changed = this.val_update_person.error;
                 });
         },
         delete_person: function (personId, index) {
@@ -286,13 +288,13 @@ const app = new Vue({
         },
         button_update_second: function () {
             let endTime = new Date();
-            let timeDiff = endTime - this.save_time; //in ms
+            let timeDiff = endTime - this.view_person.save_time; //in ms
             // strip the ms
             timeDiff /= 1000;
 
             // get seconds
             let seconds = Math.round(timeDiff);
-            this.button_text = "Saved " + seconds + " seconds ago"
+            this.view_person.button_text = "Saved " + seconds + " seconds ago"
         },
         u_get_short_name: function (person, new_person = false) {
             return getShortName(person, new_person)
@@ -332,9 +334,9 @@ const app = new Vue({
         'add_person.data.patronymic': function (val) {
             this.add_person.filling = val != null;
         },
-        'person': {
+        'view_person.data': {
             handler(newVal, oldVal) {
-                this.val_get_person.changed = oldVal.id === newVal.id
+                this.view_person.val_get_person.changed = oldVal.id === newVal.id
             },
             deep: true
         }

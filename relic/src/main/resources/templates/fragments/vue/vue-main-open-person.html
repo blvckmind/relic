@@ -6,14 +6,14 @@
         </div>
         <div class="horizontal-form margin-top-10px">
             <div>
-                <input v-model="person.firstName" placeholder="First Name" type="text">
+                <input v-model="view_person.data.firstName" placeholder="First Name" type="text">
             </div>
 
             <div>
-                <input v-model="person.lastName" placeholder="Last Name" type="text">
+                <input v-model="view_person.data.lastName" placeholder="Last Name" type="text">
             </div>
             <div>
-                <input v-model="person.patronymic" placeholder="Patronymic" type="text">
+                <input v-model="view_person.data.patronymic" placeholder="Patronymic" type="text">
             </div>
         </div>
 
@@ -21,7 +21,7 @@
             <span>Other names</span>
         </div>
         <div class="horizontal-form margin-top-10px">
-            <input v-model="person.otherNames" placeholder="Other names like nicknames, alter egos, etc." type="text">
+            <input v-model="view_person.data.otherNames" placeholder="Other names like nicknames, alter egos, etc." type="text">
         </div>
 
         <div class="margin-top-20px">
@@ -29,7 +29,7 @@
         </div>
         <div class="horizontal-form margin-top-10px">
             <div>
-                <select v-model="person.dobDay">
+                <select v-model="view_person.data.dobDay">
                     <option selected="" value="">Day</option>
                     <option>1</option>
                     <option>2</option>
@@ -65,7 +65,7 @@
                 </select>
             </div>
             <div>
-                <select v-model="person.dobMonth">
+                <select v-model="view_person.data.dobMonth">
                     <option selected="" value="">Month</option>
                     <option value="1">January</option>
                     <option value="2">February</option>
@@ -82,7 +82,7 @@
                 </select>
             </div>
             <div>
-                <select v-model="person.dobYear">
+                <select v-model="view_person.data.dobYear">
                     <option selected="" value="">Year</option>
                     <option v-for="year in static.years" v-bind:value="year">
                         {{ year }}
@@ -92,10 +92,10 @@
         </div>
 
         <div class="margin-top-20px">
-            <span v-on:click="draw_fullscreen('Information: ' + person.firstName, 'user_information')" class="pointer">Information</span>
+            <span v-on:click="draw_fullscreen('Information: ' + view_person.data.firstName, 'user_information')" class="pointer">Information</span>
         </div>
         <div class="margin-top-10px pointer">
-            <textarea id="user_information" v-model="person.information" placeholder="About" class="text_box"
+            <textarea id="user_information" v-model="view_person.data.information" placeholder="About" class="text_box"
                       style="resize: none;" name="body"></textarea>
         </div>
 

@@ -66,10 +66,10 @@
                                      v-if="content_menu == 'open_person'">
                                     <div>
                                         <i class="fas fa-user"></i> <!-- uses regular style -->
-                                        <span class="strong">Person:</span> {{ u_get_short_name(person) }}
+                                        <span class="strong">Person:</span> {{ u_get_short_name(view_person.data) }}
                                     </div>
                                     <div>
-                                        <button v-if="val_get_person.changed" v-on:click="update_person()"
+                                        <button v-if="view_person.val_get_person.changed" v-on:click="update_person()"
                                                 class="small pointer">Save updates
                                         </button>
                                     </div>
@@ -125,7 +125,7 @@
 
                                 <div class="margin-top-2px">
                                     <div v-if="content_menu == 'add_person' || add_person.filling"
-                                         v-bind:class="{ 'selected': person_index == null }"
+                                         v-bind:class="{ 'selected': view_person.person_index == null }"
                                          v-on:click="draw_add_person()"
                                          class="easy fake-button">
                                         <div class="two-reverse-side-row-elements flex-start">
@@ -144,8 +144,8 @@
 
                                 <div class="margin-top-2px" v-for="(v_person, index) in persons">
                                     <div v-on:click="get_person(v_person.id, index)"
-                                         v-bind:class="{'selected': v_person.id == person.id && content_menu == 'open_person',
-                                         'pointer': !(person_index == index && content_menu == 'open_person')}"
+                                         v-bind:class="{'selected': v_person.id == view_person.data.id && content_menu == 'open_person',
+                                         'pointer': !(view_person.person_index == index && content_menu == 'open_person')}"
                                          class="easy fake-button">
                                         <div class="two-reverse-side-row-elements flex-start">
                                             <div v-bind:style="{ background: '#' + v_person.color }"
@@ -153,14 +153,14 @@
                                                 <i class="fas fa-user user-icon-element"></i>
                                             </div>
                                             <div class="margin-left-10px">
-                                                <span v-if="person_index == index && content_menu == 'open_person' && val_get_person.changed">
+                                                <span v-if="view_person.person_index == index && content_menu == 'open_person' && view_person.val_get_person.changed">
                                                     *
                                                 </span>
                                                 {{ u_get_short_name(v_person) }}
                                             </div>
                                         </div>
                                         <div>
-                                            <i v-if="person_index == index && content_menu == 'open_person'"
+                                            <i v-if="view_person.person_index == index && content_menu == 'open_person'"
                                                v-on:click="draw_modal_delete_user(u_get_short_name(v_person), v_person.id, index)"
                                                class="pointer far fa-trash-alt"></i>
                                         </div>
