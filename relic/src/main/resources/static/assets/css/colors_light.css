@@ -1,0 +1,135 @@
+:root {
+    --color-accent-easy: #6C7480;
+    --color-accent-medium: #2F3338;
+    --color-accent-strong: #0d1117;
+
+    --color-second-semimedium: #555f66;
+    --color-modal-background: #eaebed;
+
+    --color-green: #5aa264;
+    --color-red: #ed4245
+}
+
+a, body, input::placeholder, textarea::placeholder, select::placeholder {
+    color: var(--color-accent-easy) !important;
+}
+
+input, textarea, select {
+    border: 0 !important;
+    color: var(--color-accent-medium);
+}
+
+button {
+    color: #fff;
+    background-color: var(--color-accent-medium);
+}
+
+
+button[class~="green"] {
+    background-color: var(--color-green);
+}
+button[class~="warn"] {
+    background-color: var(--color-red);
+}
+button[class~="warn"] {
+    background-color: var(--color-red);
+}
+
+button[class~="disabled"] {
+    background-color: var(--color-accent-easy);
+}
+
+span[class~="strong"] {
+    color: var(--color-accent-strong);
+}
+
+span[class~="green"] {
+    color: var(--color-green);
+}
+
+#projects, input, textarea, select {
+    background: #e3e5e8 !important;
+}
+
+#person_list_header, #person_list {
+    background: #f2f3f5 !important;
+}
+
+#content_box_header, #content_box{
+    background: #ffffff !important;
+}
+
+#top_bar {
+    box-shadow: 0 1px 0 rgba(6, 6, 7, 0.1), 0 1.5px 0 rgba(6, 6, 7, 0.025), 0 2px 0 rgba(6, 6, 7, 0.025);
+}
+
+.circular-icon, .circular {
+    background: #ffffff;
+    color: var(--color-green);;
+}
+
+.circular-main {
+    background: var(--color-accent-strong) !important;
+    color: white !important;
+}
+.circular-main:hover {
+    background: white !important;
+    color: var(--color-accent-strong) !important;
+}
+
+.circular-user-icon {
+    background: var(--color-green);
+    color: white;
+}
+
+.circular-icon:hover {
+    background: var(--color-green);
+    color: #ffffff;
+}
+
+.fake-button[class~="easy"]:hover {
+    background: #e8eaed;
+    color: var(--color-second-semimedium);
+}
+.fake-button[class~="selected"], .fake-button[class~="selected"]:hover {
+    background: #d4d7dc;
+    color: var(--color-accent-strong);
+}
+
+input[class~="purge_input"]::-webkit-search-cancel-button, input[type~="search"]::-webkit-search-cancel-button {
+    background: var(--color-second-semimedium);
+}
+
+/* winbox */
+.winbox.relic {
+    background: none;
+    box-shadow: none;
+}
+
+.winbox.fullscreen {
+    background: var(--color-second-semimedium);
+}
+
+.wb-body.relic {
+    padding: 10px;
+}
+
+.wb-body {
+    border-radius: 10px;
+    background: var(--color-modal-background);
+    color: var(--color-accent-strong);
+}
+
+.wb-title.relic {
+    display: none;
+    visibility: hidden;
+}
+
+.wb-header {
+    /*display: none;*/
+}
+.wb-n {
+    display: none;
+}
+
+

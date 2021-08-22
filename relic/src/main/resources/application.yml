@@ -1,0 +1,31 @@
+relic:
+  port: 8172
+  database:
+    path: "./databases/relic-database.h2"
+
+server:
+  port: ${relic.port}
+  shutdown: graceful
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+
+  profiles:
+    active: prod
+
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:file:${relic.database.path}
+    username: sa
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    enabled: true
