@@ -5,7 +5,7 @@ plugins {
     kotlin("plugin.jpa") version "1.3.72"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
