@@ -1,7 +1,7 @@
-package io.github.blvckmind.relic.service
+package io.github.blvckmind.relic.persistence.service
 
-import io.github.blvckmind.relic.domain.entity.ImageEntity
-import io.github.blvckmind.relic.repository.ImageEntityRepository
+import io.github.blvckmind.relic.persistence.model.entity.ImageEntity
+import io.github.blvckmind.relic.persistence.repository.ImageEntityRepository
 import org.springframework.stereotype.Service
 
 @Service

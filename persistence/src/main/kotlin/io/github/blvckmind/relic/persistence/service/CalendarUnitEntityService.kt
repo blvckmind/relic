@@ -1,13 +1,12 @@
-package io.github.blvckmind.relic.service
+package io.github.blvckmind.relic.persistence.service
 
-import io.github.blvckmind.relic.domain.entity.CalendarUnitEntity
-import io.github.blvckmind.relic.domain.enums.SourceTypeEnum
-import io.github.blvckmind.relic.repository.CalendarUnitEntityRepository
+import io.github.blvckmind.relic.persistence.model.entity.CalendarUnitEntity
+import io.github.blvckmind.relic.persistence.model.enums.SourceTypeEnum
+import io.github.blvckmind.relic.persistence.repository.CalendarUnitEntityRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 
 @Service

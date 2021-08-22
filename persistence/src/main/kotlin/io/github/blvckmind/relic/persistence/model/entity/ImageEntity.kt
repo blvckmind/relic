@@ -1,4 +1,4 @@
-package io.github.blvckmind.relic.domain.entity
+package io.github.blvckmind.relic.persistence.model.entity
 
 import jakarta.validation.constraints.NotNull
 import javax.persistence.*

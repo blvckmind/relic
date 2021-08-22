@@ -1,6 +1,6 @@
 package io.github.blvckmind.relic.model.person_dto
 
-import io.github.blvckmind.relic.domain.enums.GenderEnum
+import io.github.blvckmind.relic.persistence.model.enums.GenderEnum
 
 open class PersonDto {
     var photoId: String? = null

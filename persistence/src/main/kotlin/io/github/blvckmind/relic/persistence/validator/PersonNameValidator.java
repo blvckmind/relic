@@ -1,7 +1,7 @@
-package io.github.blvckmind.relic.validator;
+package io.github.blvckmind.relic.persistence.validator;
 
-import io.github.blvckmind.relic.annotation.ValidName;
-import io.github.blvckmind.relic.domain.entity.PersonEntity;
+import io.github.blvckmind.relic.persistence.annotation.ValidName;
+import io.github.blvckmind.relic.persistence.model.entity.PersonEntity;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

@@ -1,7 +1,7 @@
-package io.github.blvckmind.relic.domain.entity
+package io.github.blvckmind.relic.persistence.model.entity
 
-import io.github.blvckmind.relic.domain.enums.GenderEnum
-import io.github.blvckmind.relic.domain.enums.TrustLevelEnum
+import io.github.blvckmind.relic.persistence.model.enums.GenderEnum
+import io.github.blvckmind.relic.persistence.model.enums.TrustLevelEnum
 import jakarta.validation.constraints.Size
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate

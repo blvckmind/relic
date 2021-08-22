@@ -1,6 +1,6 @@
-package io.github.blvckmind.relic.annotation;
+package io.github.blvckmind.relic.persistence.annotation;
 
-import io.github.blvckmind.relic.validator.PersonNameValidator;
+import io.github.blvckmind.relic.persistence.validator.PersonNameValidator;
 import jakarta.validation.Constraint;
 
 import java.lang.annotation.Documented;

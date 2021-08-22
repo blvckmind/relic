@@ -1,11 +1,14 @@
 package io.github.blvckmind.relic.service
 
-import io.github.blvckmind.relic.domain.entity.CalendarUnitEntity
-import io.github.blvckmind.relic.domain.entity.PersonEntity
-import io.github.blvckmind.relic.domain.enums.SourceTypeEnum
+import io.github.blvckmind.relic.persistence.model.entity.CalendarUnitEntity
+import io.github.blvckmind.relic.persistence.model.entity.PersonEntity
+import io.github.blvckmind.relic.persistence.model.enums.SourceTypeEnum
 import io.github.blvckmind.relic.model.person_dto.CreatePersonDto
 import io.github.blvckmind.relic.model.person_dto.GetPersonDto
 import io.github.blvckmind.relic.model.person_dto.UpdatePersonDto
+import io.github.blvckmind.relic.persistence.service.CalendarUnitEntityService
+import io.github.blvckmind.relic.persistence.service.ImageEntityService
+import io.github.blvckmind.relic.persistence.service.PersonEntityService
 import io.github.blvckmind.relic.util.CalendarUnitUtil
 import io.github.blvckmind.relic.util.colors
 import io.github.blvckmind.relic.util.notNull

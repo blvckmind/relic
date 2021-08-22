@@ -1,6 +1,6 @@
-package io.github.blvckmind.relic.repository
+package io.github.blvckmind.relic.persistence.repository
 
-import io.github.blvckmind.relic.domain.entity.PersonEntity
+import io.github.blvckmind.relic.persistence.model.entity.PersonEntity
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository

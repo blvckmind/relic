@@ -1,7 +1,7 @@
 package io.github.blvckmind.relic.util
 
-import io.github.blvckmind.relic.domain.entity.CalendarUnitEntity
-import io.github.blvckmind.relic.domain.enums.SourceTypeEnum
+import io.github.blvckmind.relic.persistence.model.entity.CalendarUnitEntity
+import io.github.blvckmind.relic.persistence.model.enums.SourceTypeEnum
 import io.github.blvckmind.relic.model.person_dto.CreatePersonDto
 import io.github.blvckmind.relic.model.person_dto.PersonDto
 import io.github.blvckmind.relic.model.person_dto.UpdatePersonDto

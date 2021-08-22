@@ -1,12 +1,12 @@
 package io.github.blvckmind.relic.controller.rest
 
-import io.github.blvckmind.relic.domain.entity.PersonEntity
+import io.github.blvckmind.relic.persistence.model.entity.PersonEntity
 import io.github.blvckmind.relic.model.person_dto.CreatePersonDto
 import io.github.blvckmind.relic.model.ResponseEntities
 import io.github.blvckmind.relic.model.person_dto.GetPersonDto
 import io.github.blvckmind.relic.model.person_dto.UpdatePersonDto
 import io.github.blvckmind.relic.service.PersonDtoService
-import io.github.blvckmind.relic.service.PersonEntityService
+import io.github.blvckmind.relic.persistence.service.PersonEntityService
 import org.springframework.web.bind.annotation.*
 
 @RestController

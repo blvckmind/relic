@@ -1,6 +1,6 @@
-package io.github.blvckmind.relic.repository
+package io.github.blvckmind.relic.persistence.repository
 
-import io.github.blvckmind.relic.domain.entity.ImageEntity
+import io.github.blvckmind.relic.persistence.model.entity.ImageEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

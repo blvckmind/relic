@@ -1,4 +1,4 @@
-package io.github.blvckmind.relic.domain.enums
+package io.github.blvckmind.relic.persistence.model.enums
 
 enum class TrustLevelEnum {
     HIGHLY_TRUSTED,

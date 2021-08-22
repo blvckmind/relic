@@ -1,7 +1,7 @@
-package io.github.blvckmind.relic.repository
+package io.github.blvckmind.relic.persistence.repository
 
-import io.github.blvckmind.relic.domain.entity.CalendarUnitEntity
-import io.github.blvckmind.relic.domain.enums.SourceTypeEnum
+import io.github.blvckmind.relic.persistence.model.entity.CalendarUnitEntity
+import io.github.blvckmind.relic.persistence.model.enums.SourceTypeEnum
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository

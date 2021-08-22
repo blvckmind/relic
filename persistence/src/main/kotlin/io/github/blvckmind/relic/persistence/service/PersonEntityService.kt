@@ -1,8 +1,8 @@
-package io.github.blvckmind.relic.service
+package io.github.blvckmind.relic.persistence.service
 
-import io.github.blvckmind.relic.annotation.ValidName
-import io.github.blvckmind.relic.domain.entity.PersonEntity
-import io.github.blvckmind.relic.repository.PersonRepository
+import io.github.blvckmind.relic.persistence.annotation.ValidName
+import io.github.blvckmind.relic.persistence.model.entity.PersonEntity
+import io.github.blvckmind.relic.persistence.repository.PersonRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable

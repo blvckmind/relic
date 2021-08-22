@@ -1,6 +1,6 @@
 package io.github.blvckmind.relic.controller
 
-import io.github.blvckmind.relic.service.PersonEntityService
+import io.github.blvckmind.relic.persistence.service.PersonEntityService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping

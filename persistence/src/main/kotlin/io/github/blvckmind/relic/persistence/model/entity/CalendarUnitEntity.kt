@@ -1,6 +1,6 @@
-package io.github.blvckmind.relic.domain.entity
+package io.github.blvckmind.relic.persistence.model.entity
 
-import io.github.blvckmind.relic.domain.enums.SourceTypeEnum
+import io.github.blvckmind.relic.persistence.model.enums.SourceTypeEnum
 import jakarta.validation.constraints.Size
 import javax.persistence.*
 
