@@ -1,1 +1,5 @@
-# relic
+[![LICENSE](https://badgen.net/github/license/blvckmind/relic)](https://github.com/blvckmind/relic/blob/master/LICENSE)
+[![Dependencies](https://badgen.net/packagist/lang/blvckmind/relic)](#)
+[![Dependencies](https://badgen.net/dependabot/blvckmind/relic?icon=dependabot)](#)
+[![Open Issues](https://badgen.net/github/open-issues/blvckmind/relic)](https://github.com/blvckmind/relic/issues)
+[![Last Commit](https://badgen.net/github/last-commit/blvckmind/relic)](#)
