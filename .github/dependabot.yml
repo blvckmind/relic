@@ -3,14 +3,11 @@ updates:
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
-      interval: "daily"
-
-  - package-ecosystem: "gradle"
-    directory: "/relic"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "gradle"
-    directory: "/persistence"
-    schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "[dependabot]"
+    labels:
+      - "dependencies"
+    reviewers:
+      - "ramizdemiurge"
