@@ -235,14 +235,21 @@ const app = new Vue({
                     console.log(response);
                     if (response.data != null) {
                         this.person = response.data;
-                        this.save_time = new Date();
-                        this.button_text = "Saved at " + new Date().toISOString().substr(11, 5);
+
+                        let person_save_time = new Date();
+                        this.save_time = person_save_time;
+                        this.button_text = "Saved at " + person_save_time.toISOString().substr(11, 5);
 
                         /* Updating name in list */
-                        this.persons[this.person_index].firstName = this.person.firstName;
-                        this.persons[this.person_index].lastName = this.person.lastName;
-                        this.persons[this.person_index].patronymic = this.person.patronymic;
-                        this.persons[this.person_index].photoId = this.person.photoId;
+                        if (this.persons.length > this.person_index){
+                            let exist_id = this.persons[this.person_index].id
+                            if (exist_id === this.person.id){
+                                this.persons[this.person_index].firstName = this.person.firstName;
+                                this.persons[this.person_index].lastName = this.person.lastName;
+                                this.persons[this.person_index].patronymic = this.person.patronymic;
+                                this.persons[this.person_index].photoId = this.person.photoId;
+                            }
+                        }
                         /* End of Updating name in list */
 
                         if (!this.save_time_updating) {

@@ -142,13 +142,13 @@
                                     </div>
                                 </div>
 
-                                <div class="margin-top-2px" v-for="(person, index) in persons">
-                                    <div v-on:click="get_person(person.id, index)"
-                                         v-bind:class="{'selected': person_index == index && content_menu == 'open_person',
+                                <div class="margin-top-2px" v-for="(v_person, index) in persons">
+                                    <div v-on:click="get_person(v_person.id, index)"
+                                         v-bind:class="{'selected': v_person.id == person.id && content_menu == 'open_person',
                                          'pointer': !(person_index == index && content_menu == 'open_person')}"
                                          class="easy fake-button">
                                         <div class="two-reverse-side-row-elements flex-start">
-                                            <div v-bind:style="{ background: '#' + person.color }"
+                                            <div v-bind:style="{ background: '#' + v_person.color }"
                                                  class="small circular-photo circular-user-icon">
                                                 <i class="fas fa-user user-icon-element"></i>
                                             </div>
@@ -156,12 +156,12 @@
                                                 <span v-if="person_index == index && content_menu == 'open_person' && val_get_person.changed">
                                                     *
                                                 </span>
-                                                {{ u_get_short_name(person) }}
+                                                {{ u_get_short_name(v_person) }}
                                             </div>
                                         </div>
                                         <div>
                                             <i v-if="person_index == index && content_menu == 'open_person'"
-                                               v-on:click="draw_modal_delete_user(u_get_short_name(person), person.id, index)"
+                                               v-on:click="draw_modal_delete_user(u_get_short_name(v_person), v_person.id, index)"
                                                class="pointer far fa-trash-alt"></i>
                                         </div>
                                     </div>
