@@ -192,10 +192,16 @@ button {
 }
 
 .text_box, #textbox {
-    /*height: calc(100% - 200px);*/
-    /*height: calc(100%);*/
     height: 100%;
     box-sizing: border-box;
+}
+
+.text_box[class~="full_size"]{
+    border: none;
+    height: 100%;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 15px;
 }
 
 

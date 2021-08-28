@@ -93,6 +93,11 @@
     justify-content: flex-start !important;
 }
 
+.three-row-elements {
+    display: flex !important;
+
+}
+
 
 
 

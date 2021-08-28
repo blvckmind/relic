@@ -31,9 +31,6 @@ button[class~="green"] {
 button[class~="warn"] {
     background-color: var(--color-red);
 }
-button[class~="warn"] {
-    background-color: var(--color-red);
-}
 
 button[class~="disabled"] {
     background-color: var(--color-accent-easy);

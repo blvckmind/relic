@@ -37,6 +37,7 @@ const app = new Vue({
             save_time_updating: false,
             saving_process: false,
             interval_id: null,
+            content_menu: PERSON_CONTENT_MENU.INFO,
         },
 
         // Adding person
@@ -149,6 +150,7 @@ const app = new Vue({
                             color: response.data.color
                         });
                         /* End of adding new person to the list */
+                        this.u_clean_add_person_data();
                         this.get_person(response.data.id, 0);
                     }
                 })
@@ -158,7 +160,6 @@ const app = new Vue({
                 })
                 .then(() => {
                     this.add_person.saving = false;
-                    this.u_clean_add_person_data();
                 });
         },
         open_add_person: function () {
@@ -182,10 +183,13 @@ const app = new Vue({
         },
         drawError: function (error) {
             this.errored = true;
-            get_modal_content(" ", error);
+            get_modal_content(error);
         },
         draw_modal: function (name, content) {
-            get_modal_content(name, content);
+            get_modal_content(content);
+        },
+        draw_modal_unsaved_person: function (name, id, index) {
+            get_modal_unsaved_person(name, id, index);
         },
         draw_modal_delete_user: function (name, id, index) {
             get_modal_delete_user(name, id, index);
@@ -200,9 +204,22 @@ const app = new Vue({
             }
         },
         get_person: function (id, index) {
-            if (this.view_person.person_index === index && this.content_menu === 'open_person') {
+            let isSamePerson = id === this.view_person.data.id;
+            let isOpenPersonMenu = this.content_menu === 'open_person';
+
+            if (isOpenPersonMenu && isSamePerson) {
                 return;
             }
+
+            if (isOpenPersonMenu && this.view_person.val_get_person.changed) {
+                this.draw_modal_unsaved_person(
+                    getShortName(this.view_person.data),
+                    this.view_person.val_get_person.id,
+                    this.view_person.person_index
+                );
+                return;
+            }
+
             clearInterval(this.view_person.interval_id);
             this.view_person.button_text = "Save updates";
             this.view_person.save_time_updating = false;
@@ -213,7 +230,7 @@ const app = new Vue({
             axios.get('/api/person/id/' + id)
                 .then(response => {
                     if (response.data != null) {
-                        this.view_person.data= response.data
+                        this.view_person.data = response.data
                         this.view_person.val_get_person.changed = false;
                         this.content_menu = "open_person";
                     }
@@ -236,20 +253,21 @@ const app = new Vue({
                 .then(response => {
                     console.log(response);
                     if (response.data != null) {
-                        this.view_person.data= response.data;
+                        this.view_person.data = response.data;
 
                         let person_save_time = new Date();
                         this.view_person.save_time = person_save_time;
                         this.view_person.button_text = "Saved at " + person_save_time.toISOString().substr(11, 5);
 
                         /* Updating name in list */
-                        if (this.persons.length > this.view_person.person_index){
-                            let exist_id = this.persons[this.view_person.person_index].id
-                            if (exist_id === this.view_person.data.id){
-                                this.persons[this.view_person.person_index].firstName = this.view_person.data.firstName;
-                                this.persons[this.view_person.person_index].lastName = this.view_person.data.lastName;
-                                this.persons[this.view_person.person_index].patronymic = this.view_person.data.patronymic;
-                                this.persons[this.view_person.person_index].photoId = this.view_person.data.photoId;
+                        let personIndex = this.view_person.person_index;
+                        if (this.persons.length > personIndex && this.persons[personIndex] !== undefined) {
+                            let exist_id = this.persons[personIndex].id
+                            if (exist_id === this.view_person.data.id) {
+                                this.persons[personIndex].firstName = this.view_person.data.firstName;
+                                this.persons[personIndex].lastName = this.view_person.data.lastName;
+                                this.persons[personIndex].patronymic = this.view_person.data.patronymic;
+                                this.persons[personIndex].photoId = this.view_person.data.photoId;
                             }
                         }
                         /* End of Updating name in list */

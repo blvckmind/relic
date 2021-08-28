@@ -3,8 +3,19 @@
     Are you sure you want to delete __name__?
 
     <div id="controls" class="horizontal-form margin-top-20px">
-        <button class="warn pointer" onclick="app.delete_person('__id__', __index__); global_delete_user_winbox.close()" style="margin-right: 50px">Delete</button>
+        <button
+                class="warn pointer"
+                onclick="app.delete_person('__id__', __index__); global_delete_user_winbox.close()"
+                style="margin-right: 50px">
+            <i class="far fa-trash-alt"></i>
+        </button>
+
         <div></div>
-        <button class="pointer" onclick="global_delete_user_winbox.close()">Cancel</button>
+
+        <button
+                class="pointer"
+                onclick="global_delete_user_winbox.close()">
+            Cancel
+        </button>
     </div>
 </div>

@@ -23,9 +23,9 @@
                 <!--                    <img src="" alt=""/>-->
                 <!--                </div>-->
 
-                <div class="circular circular-icon margin-top-10px pointer">
-                    <i class="fas fa-plus circular-icon-element"></i>
-                </div>
+<!--                <div class="circular circular-icon margin-top-10px pointer">-->
+<!--                    <i class="fas fa-plus circular-icon-element"></i>-->
+<!--                </div>-->
 
             </div>
 
@@ -45,7 +45,7 @@
                     </div>
 
                     <div id="content_box_header" class="shadow-style">
-                        <div class="padding-10px content-box-header-inner two-reverse-side-row-elements">
+                        <div class="content-box-header-inner two-reverse-side-row-elements">
                             <div>
 
                                 <div class="content-box-header-inner-child-flexbox"
@@ -73,6 +73,19 @@
                                                 class="small pointer">Save updates
                                         </button>
                                     </div>
+                                    <div>
+                                        <button v-on:click="view_person.content_menu = PERSON_CONTENT_MENU.FIELDS"
+                                                class="small pointer"><i class="fas fa-table"></i>
+                                        </button>
+
+                                        <button v-on:click="view_person.content_menu = PERSON_CONTENT_MENU.INFO"
+                                                class="small pointer"><i class="fas fa-book-open"></i>
+                                        </button>
+
+<!--                                        <button v-on:click="view_person.content_menu = PERSON_CONTENT_MENU.CALENDAR"-->
+<!--                                                class="small pointer"><i class="fas fa-calendar-alt"></i>-->
+<!--                                        </button>-->
+                                    </div>
                                 </div>
 
                                 <div class="content-box-header-inner-child-flexbox" v-if="content_menu == 'add_person'">
@@ -98,7 +111,8 @@
 
                             <div>
                                 <!--/*@thymesVar id="application_properties" type="io.github.blvckmind.relic.config.ApplicationProperties"*/-->
-                                <i th:if="${application_properties.authorization.outsideAccess}" onclick="window.location.href='/lock'" class="fas fa-lock pointer"></i>
+                                <i th:if="${application_properties.authorization.outsideAccess}"
+                                   onclick="window.location.href='/lock'" class="fas fa-lock pointer"></i>
                             </div>
 
 
@@ -144,8 +158,8 @@
 
                                 <div class="margin-top-2px" v-for="(v_person, index) in persons">
                                     <div v-on:click="get_person(v_person.id, index)"
-                                         v-bind:class="{'selected': v_person.id == view_person.data.id && content_menu == 'open_person',
-                                         'pointer': !(view_person.person_index == index && content_menu == 'open_person')}"
+                                         v-bind:class="{'selected': content_menu == 'open_person' && v_person.id == view_person.data.id,
+                                         'pointer': !(content_menu == 'open_person' && v_person.id == view_person.data.id)}"
                                          class="easy fake-button">
                                         <div class="two-reverse-side-row-elements flex-start">
                                             <div v-bind:style="{ background: '#' + v_person.color }"
@@ -153,14 +167,14 @@
                                                 <i class="fas fa-user user-icon-element"></i>
                                             </div>
                                             <div class="margin-left-10px">
-                                                <span v-if="view_person.person_index == index && content_menu == 'open_person' && view_person.val_get_person.changed">
+                                                <span v-if="content_menu == 'open_person' && view_person.val_get_person.changed && v_person.id == view_person.data.id">
                                                     *
                                                 </span>
                                                 {{ u_get_short_name(v_person) }}
                                             </div>
                                         </div>
                                         <div>
-                                            <i v-if="view_person.person_index == index && content_menu == 'open_person'"
+                                            <i v-if="content_menu == 'open_person' && v_person.id == view_person.data.id"
                                                v-on:click="draw_modal_delete_user(u_get_short_name(v_person), v_person.id, index)"
                                                class="pointer far fa-trash-alt"></i>
                                         </div>
@@ -173,7 +187,7 @@
 
                     <div id="content_box">
 
-                        <div class="padding-10px">
+                        <div>
                             <div th:replace="fragments/vue/vue-main-open-person"></div>
                             <div th:replace="fragments/vue/vue-main-add-person"></div>
                         </div>

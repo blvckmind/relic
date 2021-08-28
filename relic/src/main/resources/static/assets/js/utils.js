@@ -14,8 +14,8 @@ function get_win_box(name, url, max, split, on_close) {
     })
 }
 
-function get_modal_content(name, content) {
-    return new WinBox(name, {
+function get_modal_content(content) {
+    return new WinBox(" ", {
         class: ["relic"],
         html: "<div class=\"modal-content\">" + content + "</div>",
         root: document.getElementById("app"),
@@ -25,10 +25,19 @@ function get_modal_content(name, content) {
 
 let global_delete_user_winbox;
 function get_modal_delete_user(name, id, index) {
-    let body = getView("delete_user")
-        .replace("__name__", name)
-        .replace("__id__", id)
-        .replace("__index__", index);
+    let body;
+
+    try {
+        body = getView("delete_user")
+            .replace("__name__", name)
+            .replace("__id__", id)
+            .replace("__index__", index);
+    } catch (e) {
+        console.log('Error: get delete_user.html', e);
+        get_modal_content(e.toString());
+        return;
+    }
+
     global_delete_user_winbox = new WinBox(" ", {
         class: ["relic"],
         html: body,
@@ -38,6 +47,32 @@ function get_modal_delete_user(name, id, index) {
         modal: true
     });
     return global_delete_user_winbox;
+}
+
+let global_unsaved_person_winbox;
+function get_modal_unsaved_person(name, id, index) {
+    let body;
+
+    try {
+        body = getView("unsaved_user")
+            .replace("__name__", name)
+            .replace("__id__", id)
+            .replace("__index__", index);
+    } catch (e) {
+        console.log('Error: get unsaved_user.html', e);
+        get_modal_content(e.toString());
+        return;
+    }
+
+    global_unsaved_person_winbox = new WinBox(" ", {
+        class: ["relic"],
+        html: body,
+        width: 400,
+        height: 150,
+        root: document.getElementById("app"),
+        modal: true
+    });
+    return global_unsaved_person_winbox;
 }
 
 function open_fullscreen(name, id) {
@@ -69,20 +104,20 @@ function getShortName(user_object, new_person = false) {
 
     if (name.length > 0 && user_object.lastName !== null && user_object.lastName !== '') {
         name.push(user_object.lastName.charAt(0).toUpperCase().concat("."));
-    } else if (user_object.lastName !== null && user_object.lastName !== ''){
+    } else if (user_object.lastName !== null && user_object.lastName !== '') {
         let lastNameRest = user_object.lastName.length <= 12
             ? user_object.lastName.slice(1) : user_object.lastName.slice(1, 10) + "...";
         name.push(user_object.lastName.charAt(0).toUpperCase() + lastNameRest.toLowerCase());
     }
 
-    if (name.length < 1  && user_object.patronymic !== null && user_object.patronymic !== ''){
+    if (name.length < 1 && user_object.patronymic !== null && user_object.patronymic !== '') {
         let lastNameRest = user_object.patronymic.length <= 12
             ? user_object.patronymic.slice(1) : user_object.patronymic.slice(1, 10) + "...";
         name.push(user_object.patronymic.charAt(0).toUpperCase() + lastNameRest.toLowerCase());
     }
 
-    if (name.length < 1){
-        if (new_person){
+    if (name.length < 1) {
+        if (new_person) {
             return "New Person";
         } else {
             return "[Unnamed]";
@@ -92,11 +127,11 @@ function getShortName(user_object, new_person = false) {
     return name.join(" ");
 }
 
-function isNotEmpty(string){
+function isNotEmpty(string) {
     return string !== null && string !== '';
 }
 
-function getView(viewName){
+function getView(viewName) {
     // read text from URL location
     let request = new XMLHttpRequest();
     request.open('GET', '/assets/view/' + viewName + ".html", false);
