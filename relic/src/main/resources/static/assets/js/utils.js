@@ -42,7 +42,7 @@ function get_modal_delete_user(name, id, index) {
         class: ["relic"],
         html: body,
         width: 400,
-        height: 150,
+        height: 170,
         root: document.getElementById("app"),
         modal: true
     });
@@ -93,20 +93,29 @@ function textAreaAdjust(element) {
     // }
 }
 
-function getShortName(user_object, new_person = false) {
+function getShortName(user_object, new_person = false, short_lastname = true) {
+    const first_name_max_length = 8;
+    const short_name_max_length = 16;
+
     let name = [];
+    let first_name_actual_length = 0;
 
     if (user_object.firstName !== null && user_object.firstName !== '') {
-        let firstNameRest = user_object.firstName.length <= 12
-            ? user_object.firstName.slice(1) : user_object.firstName.slice(1, 10) + "...";
-        name.push(user_object.firstName.charAt(0).toUpperCase() + firstNameRest.toLowerCase());
+        let firstNameRest = user_object.firstName.length <= first_name_max_length
+            ? user_object.firstName.slice(1) : user_object.firstName.slice(1, first_name_max_length - 3) + "...";
+        let proceedFirstName = user_object.firstName.charAt(0).toUpperCase() + firstNameRest.toLowerCase();
+        name.push(proceedFirstName);
+
+        first_name_actual_length += proceedFirstName.length;
     }
 
-    if (name.length > 0 && user_object.lastName !== null && user_object.lastName !== '') {
+    if (name.length > 0 && user_object.lastName !== null && user_object.lastName !== '' && short_lastname) {
         name.push(user_object.lastName.charAt(0).toUpperCase().concat("."));
     } else if (user_object.lastName !== null && user_object.lastName !== '') {
-        let lastNameRest = user_object.lastName.length <= 12
-            ? user_object.lastName.slice(1) : user_object.lastName.slice(1, 10) + "...";
+        let last_name_max_length = short_name_max_length - first_name_actual_length;
+
+        let lastNameRest = user_object.lastName.length <= last_name_max_length
+            ? user_object.lastName.slice(1) : user_object.lastName.slice(1, last_name_max_length - 3) + "...";
         name.push(user_object.lastName.charAt(0).toUpperCase() + lastNameRest.toLowerCase());
     }
 

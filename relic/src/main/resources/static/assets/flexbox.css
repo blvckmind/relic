@@ -1,3 +1,8 @@
+:root {
+    --content-list-width: 275px;
+    --projects-list-width: 0px; /* 72px */
+}
+
 .app_box {
     display: flex;
     flex-direction: row;
@@ -8,7 +13,7 @@
 }
 
 #projects {
-    flex-basis: 72px;
+    flex-basis: var(--projects-list-width);
     height: 100vh;
 
     display: flex;
@@ -22,7 +27,7 @@
 }
 
 #main_window {
-    flex-basis: calc(100vw - 72px);
+    flex-basis: calc(100vw - var(--projects-list-width));
 
     display: flex;
     flex-direction: column;
@@ -43,11 +48,11 @@
 }
 
 #person_list_header, #person_list {
-    flex-basis: 240px;
+    flex-basis: var(--content-list-width);
 }
 
 #content_box_header {
-    flex-basis: calc(100vw - 240px - 72px);
+    flex-basis: calc(100vw - var(--content-list-width) - var(--projects-list-width));
 
     /*display: flex;*/
     /*align-items: center;*/
@@ -76,7 +81,7 @@
 }
 
 #content_box {
-    flex-basis: calc(100vw - 240px - 72px);
+    flex-basis: calc(100vw - var(--content-list-width) - var(--projects-list-width));
     height: calc(100vh - 48px);
     overflow-x: hidden;
     overflow-y: auto;

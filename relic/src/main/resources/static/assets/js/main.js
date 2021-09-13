@@ -237,7 +237,7 @@ const app = new Vue({
 
             if (isOpenPersonMenu && this.view_person.val_get_person.changed) {
                 this.draw_modal_unsaved_person(
-                    getShortName(this.view_person.data),
+                    getShortName(this.view_person.data, false, false),
                     this.view_person.val_get_person.id,
                     this.view_person.person_index
                 );
@@ -338,8 +338,8 @@ const app = new Vue({
             let seconds = Math.round(timeDiff);
             this.view_person.button_text = "Saved " + seconds + " seconds ago"
         },
-        u_get_short_name: function (person, new_person = false) {
-            return getShortName(person, new_person)
+        u_get_short_name: function (person, new_person = false, short_lastname = true) {
+            return getShortName(person, new_person, short_lastname)
         },
         u_clean_add_person_data: function () {
             this.add_person.data = {

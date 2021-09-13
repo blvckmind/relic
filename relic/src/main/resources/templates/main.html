@@ -23,9 +23,9 @@
                 <!--                    <img src="" alt=""/>-->
                 <!--                </div>-->
 
-<!--                <div class="circular circular-icon margin-top-10px pointer">-->
-<!--                    <i class="fas fa-plus circular-icon-element"></i>-->
-<!--                </div>-->
+                <!--                <div class="circular circular-icon margin-top-10px pointer">-->
+                <!--                    <i class="fas fa-plus circular-icon-element"></i>-->
+                <!--                </div>-->
 
             </div>
 
@@ -65,8 +65,10 @@
                                 <div class="content-box-header-inner-child-flexbox"
                                      v-if="content.menu == 'open_person'">
                                     <div>
-                                        <i class="fas fa-user"></i> <!-- uses regular style -->
-                                        <span class="strong">Person:</span> {{ u_get_short_name(view_person.data) }}
+                                        <i class="fas fa-user"></i>
+                                        <span class="strong">
+                                            {{ u_get_short_name(view_person.data, false, false) }}
+                                        </span>
                                     </div>
                                     <div>
                                         <button v-if="view_person.val_get_person.changed" v-on:click="update_person()"
@@ -82,9 +84,9 @@
                                                 class="small pointer"><i class="fas fa-book-open"></i>
                                         </button>
 
-<!--                                        <button v-on:click="view_person.content_menu = PERSON_CONTENT_MENU.CALENDAR"-->
-<!--                                                class="small pointer"><i class="fas fa-calendar-alt"></i>-->
-<!--                                        </button>-->
+                                        <!--                                        <button v-on:click="view_person.content_menu = PERSON_CONTENT_MENU.CALENDAR"-->
+                                        <!--                                                class="small pointer"><i class="fas fa-calendar-alt"></i>-->
+                                        <!--                                        </button>-->
                                     </div>
                                 </div>
 
@@ -147,7 +149,7 @@
                                                 <i class="fas fa-user-plus user-icon-element"></i>
                                             </div>
                                             <div class="margin-left-10px">
-                                                {{ u_get_short_name(add_person.data, true) }}
+                                                {{ u_get_short_name(add_person.data, true, false) }}
                                             </div>
                                         </div>
                                         <div>
@@ -170,12 +172,12 @@
                                                 <span v-if="content.menu == 'open_person' && view_person.val_get_person.changed && v_person.id == view_person.data.id">
                                                     *
                                                 </span>
-                                                {{ u_get_short_name(v_person) }}
+                                                {{ u_get_short_name(v_person, false, false) }}
                                             </div>
                                         </div>
                                         <div>
                                             <i v-if="content.menu == 'open_person' && v_person.id == view_person.data.id"
-                                               v-on:click="draw_modal_delete_user(u_get_short_name(v_person), v_person.id, index)"
+                                               v-on:click="draw_modal_delete_user(u_get_short_name(v_person, false, false), v_person.id, index)"
                                                class="pointer far fa-trash-alt"></i>
                                         </div>
                                     </div>

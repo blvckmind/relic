@@ -115,6 +115,10 @@ input[class~="purge_input"]::-webkit-search-cancel-button, input[type~="search"]
     border-radius: 10px;
     background: var(--color-modal-background);
     color: var(--color-accent-strong);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .wb-title.relic {
