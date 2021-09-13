@@ -10,7 +10,7 @@
     <transition name="fade" leave-active-class="">
         <div v-if="page == 'app'" id="inner_app" class="app_box" style="animation-duration: 1s">
             <div id="projects">
-                <div v-on:click="content_menu = 'all_projects'"
+                <div v-on:click="content.menu = 'all_projects'"
                      class="circular circular-main circular-icon margin-top-10px pointer">
                     <i class="fas fa-eye  circular-icon-element"></i>
                 </div>
@@ -49,7 +49,7 @@
                             <div>
 
                                 <div class="content-box-header-inner-child-flexbox"
-                                     v-if="content_menu == 'all_projects'">
+                                     v-if="content.menu == 'all_projects'">
                                     <div>
                                         <i class="fas fa-user-friends"></i>
                                         <span class="strong"> All projects</span>
@@ -63,7 +63,7 @@
                                 </div>
 
                                 <div class="content-box-header-inner-child-flexbox"
-                                     v-if="content_menu == 'open_person'">
+                                     v-if="content.menu == 'open_person'">
                                     <div>
                                         <i class="fas fa-user"></i> <!-- uses regular style -->
                                         <span class="strong">Person:</span> {{ u_get_short_name(view_person.data) }}
@@ -88,7 +88,7 @@
                                     </div>
                                 </div>
 
-                                <div class="content-box-header-inner-child-flexbox" v-if="content_menu == 'add_person'">
+                                <div class="content-box-header-inner-child-flexbox" v-if="content.menu == 'add_person'">
                                     <div>
                                         <i class="fas fa-user"></i> <!-- uses regular style -->
                                         <span class="strong">Add person</span>
@@ -129,7 +129,7 @@
                                     Persons list
                                 </div>
                                 <div>
-                                    <i v-if="content_menu != 'add_person'" v-on:click="draw_add_person()"
+                                    <i v-if="content.menu != 'add_person'" v-on:click="draw_add_person()"
                                        class="pointer fas fa-user-plus"></i>
                                 </div>
                             </div>
@@ -138,7 +138,7 @@
                             <div class="margin-top-10px">
 
                                 <div class="margin-top-2px">
-                                    <div v-if="content_menu == 'add_person' || add_person.filling"
+                                    <div v-if="content.menu == 'add_person' || add_person.filling"
                                          v-bind:class="{ 'selected': view_person.person_index == null }"
                                          v-on:click="draw_add_person()"
                                          class="easy fake-button">
@@ -158,8 +158,8 @@
 
                                 <div class="margin-top-2px" v-for="(v_person, index) in persons">
                                     <div v-on:click="get_person(v_person.id, index)"
-                                         v-bind:class="{'selected': content_menu == 'open_person' && v_person.id == view_person.data.id,
-                                         'pointer': !(content_menu == 'open_person' && v_person.id == view_person.data.id)}"
+                                         v-bind:class="{'selected': content.menu == 'open_person' && v_person.id == view_person.data.id,
+                                         'pointer': !(content.menu == 'open_person' && v_person.id == view_person.data.id)}"
                                          class="easy fake-button">
                                         <div class="two-reverse-side-row-elements flex-start">
                                             <div v-bind:style="{ background: '#' + v_person.color }"
@@ -167,14 +167,14 @@
                                                 <i class="fas fa-user user-icon-element"></i>
                                             </div>
                                             <div class="margin-left-10px">
-                                                <span v-if="content_menu == 'open_person' && view_person.val_get_person.changed && v_person.id == view_person.data.id">
+                                                <span v-if="content.menu == 'open_person' && view_person.val_get_person.changed && v_person.id == view_person.data.id">
                                                     *
                                                 </span>
                                                 {{ u_get_short_name(v_person) }}
                                             </div>
                                         </div>
                                         <div>
-                                            <i v-if="content_menu == 'open_person' && v_person.id == view_person.data.id"
+                                            <i v-if="content.menu == 'open_person' && v_person.id == view_person.data.id"
                                                v-on:click="draw_modal_delete_user(u_get_short_name(v_person), v_person.id, index)"
                                                class="pointer far fa-trash-alt"></i>
                                         </div>

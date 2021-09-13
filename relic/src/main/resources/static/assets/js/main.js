@@ -10,19 +10,44 @@ const app = new Vue({
         },
 
         util: {
-            next_color_index: 0
+            next_locked: false,
+            awaiting_search: false,
         },
 
         httpClient: null,
         page: null,
 
         persons: [],
+        projects: [],
         open_windows: new Map(),
         search_params: person_search_parameters,
-        next_locked: false,
 
-        content_title: "Generated person list",
-        content_menu: "all_projects",
+        content: {
+            title: "Generated person list",
+            menu: "all_projects",
+            project: null
+        },
+
+        view: {
+            project: {
+                data: {}
+            },
+
+            person: {
+                data: {},
+                val_get_person: {
+                    error: false,
+                    changed: false
+                },
+                person_index: null,
+                button_text: "Save changes",
+                save_time: null,
+                save_time_updating: false,
+                saving_process: false,
+                interval_id: null,
+                content_menu: PERSON_CONTENT_MENU.INFO,
+            }
+        },
 
         // Viewing person
         view_person: {
@@ -62,7 +87,6 @@ const app = new Vue({
             error: false
         },
 
-        awaitingSearch: false,
         errored: false,
     },
     created: function () {
@@ -108,9 +132,9 @@ const app = new Vue({
                         } else {
                             this.persons = response.data.payload;
                         }
-                        this.next_locked = false;
+                        this.util.next_locked = false;
                     } else {
-                        this.next_locked = true;
+                        this.util.next_locked = true;
                         if (this.search_params.page > 1) {
                             this.search_params.page = 1;
                             this.fetchPersons(false);
@@ -138,8 +162,8 @@ const app = new Vue({
             axios.post('/api/person/create', this.add_person.data)
                 .then(response => {
                     if (response.data != null) {
-                        /* Change content_menu to another one to avoid doubling new person in list */
-                        this.content_menu = null;
+                        /* Change content.menu to another one to avoid doubling new person in list */
+                        this.content.menu = null;
                         /* Adding new person to the list */
                         this.persons.unshift({
                             id: response.data.id,
@@ -169,13 +193,13 @@ const app = new Vue({
             });
         },
         blockingLoad: function () {
-            if (!this.awaitingSearch) {
+            if (!this.util.awaiting_search) {
                 setTimeout(() => {
                     this.fetchPersons();
-                    this.awaitingSearch = false;
+                    this.util.awaiting_search = false;
                 }, 200);
             }
-            this.awaitingSearch = true;
+            this.util.awaiting_search = true;
         },
         draw_ui: function () {
             $('#app').removeClass("non-visible");
@@ -198,14 +222,14 @@ const app = new Vue({
             open_fullscreen(name, id);
         },
         draw_add_person: function () {
-            if (this.content_menu !== 'add_person') {
+            if (this.content.menu !== 'add_person') {
                 this.view_person.person_index = null;
-                this.content_menu = 'add_person';
+                this.content.menu = 'add_person';
             }
         },
         get_person: function (id, index) {
             let isSamePerson = id === this.view_person.data.id;
-            let isOpenPersonMenu = this.content_menu === 'open_person';
+            let isOpenPersonMenu = this.content.menu === 'open_person';
 
             if (isOpenPersonMenu && isSamePerson) {
                 return;
@@ -225,14 +249,14 @@ const app = new Vue({
             this.view_person.save_time_updating = false;
             this.view_person.person_index = index;
 
-            this.content_title = "Loading " + id + "...";
+            this.content.title = "Loading " + id + "...";
             this.view_person.val_get_person.error = false;
             axios.get('/api/person/id/' + id)
                 .then(response => {
                     if (response.data != null) {
                         this.view_person.data = response.data
                         this.view_person.val_get_person.changed = false;
-                        this.content_menu = "open_person";
+                        this.content.menu = "open_person";
                     }
                 })
                 .catch(error => {
@@ -300,7 +324,7 @@ const app = new Vue({
             }).then(response => {
                 console.log(response);
                 this.persons.splice(index, 1);
-                this.content_menu = "all_projects";
+                this.content.menu = "all_projects";
             });
 
         },
