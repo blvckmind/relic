@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     implementation("javax.persistence:javax.persistence-api:2.2")
-    implementation("org.springframework.data:spring-data-jpa:2.5.5")
+    implementation("org.springframework.data:spring-data-jpa:2.5.6")
     implementation("org.hibernate:hibernate-validator:7.0.1.Final")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
