@@ -44,11 +44,20 @@ data class PersonEntity(
         @Enumerated(EnumType.STRING)
         var trustLevel: TrustLevelEnum? = null,
 
-        @OneToOne(cascade = [(CascadeType.ALL)],
-                fetch = FetchType.EAGER,
-                targetEntity = CalendarUnitEntity::class)
+        @OneToOne(
+            cascade = [(CascadeType.ALL)],
+            fetch = FetchType.EAGER,
+            targetEntity = CalendarUnitEntity::class
+        )
         @JoinColumn(name = "dob_cal_id")
         var dob: CalendarUnitEntity? = null,
+
+        @ManyToOne(
+            fetch = FetchType.LAZY,
+            targetEntity = ProjectEntity::class
+        )
+        @JoinColumn(name = "project_id")
+        var project: ProjectEntity? = null,
 
         @Lob
         @Column(name = "info")

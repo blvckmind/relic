@@ -3,18 +3,15 @@ package io.github.blvckmind.relic.persistence.model.entity
 import jakarta.validation.constraints.Size
 import org.springframework.data.annotation.CreatedDate
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 
 @Entity
 @Table(name = "projects")
 data class ProjectEntity(
         @Id
-        @Column(length = 36)
-        var id: String?,
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Int?,
 
         @Column(name = "photo_id", length = 64)
         @Size(min = 64, max = 64)
@@ -27,6 +24,10 @@ data class ProjectEntity(
         @Column(name = "description", length = 1024)
         @Size(max = 1024)
         var description: String?,
+
+        @Column(name = "type", length = 64, updatable = false, nullable = false)
+        @Enumerated(EnumType.STRING)
+        var type: ProjectTypeEnum,
 
         @CreatedDate
         @Column(updatable = false)

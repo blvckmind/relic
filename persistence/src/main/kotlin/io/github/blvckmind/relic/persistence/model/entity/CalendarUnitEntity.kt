@@ -10,12 +10,12 @@ data class CalendarUnitEntity(
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long? = null,
+        var id: Int? = null,
 
         @Column(name = "source_id", length = 36, nullable = false)
         var sourceId: String,
 
-        @Column(name = "source_type", nullable = false, length = 64)
+        @Column(name = "source_type", nullable = false, updatable = false, length = 64)
         @Enumerated(EnumType.STRING)
         var sourceType: SourceTypeEnum,
 

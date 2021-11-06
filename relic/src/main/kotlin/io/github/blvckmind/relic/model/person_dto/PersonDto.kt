@@ -14,7 +14,7 @@ open class PersonDto {
 
     var gender: GenderEnum? = null
 
-    var dobId: Long? = null
+    var dobId: Int? = null
     var dobDay: Short? = null
     var dobMonth: Short? = null
     var dobYear: Short? = null

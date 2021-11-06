@@ -12,8 +12,15 @@ create table persons
     photo_id     varchar(64),
     trust_level  varchar(16),
     updated_date timestamp,
-    dob_cal_id   bigint,
+    dob_cal_id   int,
+    project_id   int,
     primary key (id)
-)
+);
+
+alter table persons
+    add constraint fk_dob_cal_id foreign key (dob_cal_id) references calendar_units;
+
+alter table persons
+    add constraint fk_project_id foreign key (project_id) references projects;
+
 GO
-alter table persons add constraint fk_dob_cal_id foreign key (dob_cal_id) references calendar_units
