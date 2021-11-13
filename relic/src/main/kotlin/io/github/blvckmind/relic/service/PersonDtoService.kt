@@ -6,9 +6,11 @@ import io.github.blvckmind.relic.persistence.model.enums.SourceTypeEnum
 import io.github.blvckmind.relic.model.person_dto.CreatePersonDto
 import io.github.blvckmind.relic.model.person_dto.GetPersonDto
 import io.github.blvckmind.relic.model.person_dto.UpdatePersonDto
+import io.github.blvckmind.relic.persistence.model.entity.ProjectEntity
 import io.github.blvckmind.relic.persistence.service.CalendarUnitEntityService
 import io.github.blvckmind.relic.persistence.service.ImageEntityService
 import io.github.blvckmind.relic.persistence.service.PersonEntityService
+import io.github.blvckmind.relic.persistence.service.ProjectEntityService
 import io.github.blvckmind.relic.util.CalendarUnitUtil
 import io.github.blvckmind.relic.util.colors
 import io.github.blvckmind.relic.util.notNull
@@ -23,6 +25,7 @@ import kotlin.Exception
 class PersonDtoService(
     val personEntityService: PersonEntityService,
     val calendarUnitEntityService: CalendarUnitEntityService,
+    val projectEntityService: ProjectEntityService,
     val imageEntityService: ImageEntityService
 ) {
 
@@ -127,9 +130,28 @@ class PersonDtoService(
         personEntityService.delete(id)
     }
 
-    fun search(keyword: String?): List<GetPersonDto> {
-        val persons = personEntityService.getPersonsByName(keyword, 0)
-        return persons.toList().map { toGetPersonDto(it) }
+    fun getCount() = personEntityService.getCount()
+
+    fun getCount(projectId: Int): Int {
+        val project = projectEntityService.get(projectId)
+            ?: throw IllegalArgumentException("There is no Project with ID: '${projectId}'")
+        return personEntityService.getCount(project)
+    }
+
+    fun search(keyword: String?, projectId: Int?): List<GetPersonDto> {
+        var projectEntity: ProjectEntity? = null
+
+        projectId.notNull {
+            projectEntity = projectEntityService.get(it)
+
+            if (projectEntity == null) {
+                throw IllegalArgumentException("There is no Project with ID: '${it}'")
+            }
+        }
+
+        return personEntityService
+            .search(keyword, projectEntity)
+            .map { toGetPersonDto(it) }
     }
 
     private fun toGetPersonDto(personEntity: PersonEntity): GetPersonDto {

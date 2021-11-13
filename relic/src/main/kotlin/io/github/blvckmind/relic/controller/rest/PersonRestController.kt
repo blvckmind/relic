@@ -20,24 +20,18 @@ class PersonRestController(
     fun getAllPersons(): List<PersonEntity> = personEntityService.getAll()
 
     @GetMapping("/id/{id}")
-    fun getById(@PathVariable("id") id: String): GetPersonDto? = personDtoService.getById(id)
+    fun getById(@PathVariable("id") id: String) = personDtoService.getById(id)
 
     @PostMapping("/create")
-    fun createPerson(@RequestBody createPersonDto: CreatePersonDto): GetPersonDto {
-        return personDtoService.create(createPersonDto)
-    }
+    fun createPerson(@RequestBody createPersonDto: CreatePersonDto) = personDtoService.create(createPersonDto)
 
     @PostMapping("/search")
     fun searchPersons(
         @RequestParam("name", required = false) name: String?,
-        @RequestParam("page", required = false) page: Int?
+        @RequestParam("project_id", required = false) projectId: Int?
     ): ResponseEntities<GetPersonDto> {
-
-        val pageNum = if (page != null) page - 1 else 0
-
-        val persons = personDtoService.search(name)
-
-        return ResponseEntities(persons, pageNum, persons.size.toLong())
+        val persons = personDtoService.search(name, projectId)
+        return ResponseEntities(persons, -1, persons.size.toLong())
     }
 
     @PutMapping("/update")

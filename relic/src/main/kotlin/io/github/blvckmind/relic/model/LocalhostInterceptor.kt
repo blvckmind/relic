@@ -25,7 +25,7 @@ class LocalhostInterceptor(val applicationProperties: ApplicationProperties) : H
             ipAddress = request.remoteAddr
         }
 
-        if (ipAddress != null && ipAddress.equals("0:0:0:0:0:0:0:1")){
+        if (ipAddress != null && ipAddress == "0:0:0:0:0:0:0:1") {
             return true
         }
 
