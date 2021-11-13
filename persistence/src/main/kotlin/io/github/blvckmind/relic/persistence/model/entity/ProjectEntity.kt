@@ -15,7 +15,11 @@ data class ProjectEntity(
 
         @Column(name = "photo_id", length = 64)
         @Size(min = 64, max = 64)
-        var photo_id: String?,
+        var photoId: String?,
+
+        @Column(name = "color", length = 6)
+        @Size(min = 6, max = 6)
+        var color: String?,
 
         @Column(name = "title", length = 128)
         @Size(max = 128)
@@ -28,6 +32,10 @@ data class ProjectEntity(
         @Column(name = "type", length = 64, updatable = false, nullable = false)
         @Enumerated(EnumType.STRING)
         var type: ProjectTypeEnum,
+
+        @Column(name = "list_order", nullable = false)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var order: Short = 0,
 
         @CreatedDate
         @Column(updatable = false)

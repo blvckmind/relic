@@ -9,7 +9,7 @@ data class ImageEntity(
     @Id
     @Column(length = 64)
     @NotNull
-    var checksum: String?,
+    var checksum: String,
 
     @Lob
     @Column(name = "bytes", columnDefinition = "BLOB", nullable = false)
@@ -18,16 +18,18 @@ data class ImageEntity(
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
+
         if (javaClass != other?.javaClass) return false
 
         other as ImageEntity
 
-        if (checksum != other.checksum) return false
+        if (checksum === other.checksum) return true
 
-        return true
+        if (hashCode() != other.hashCode()) return false
+
+        return checksum == other.checksum
     }
 
-    override fun hashCode(): Int {
-        return checksum?.hashCode() ?: 0
-    }
+    override fun hashCode() = checksum.hashCode()
+
 }

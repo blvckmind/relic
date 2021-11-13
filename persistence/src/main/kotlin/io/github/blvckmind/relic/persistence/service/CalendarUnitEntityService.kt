@@ -18,7 +18,7 @@ open class CalendarUnitEntityService(private val calendarUnitEntityRepository: C
     fun getAllBySourceIdAndSourceType(sourceId: String, sourceType: SourceTypeEnum, page: Int): Page<CalendarUnitEntity> =
             calendarUnitEntityRepository.getAllBySourceIdAndSourceType(sourceId, sourceType, PageRequest.of(page, 100, Sort.by("year").descending()))
 
-    fun deleteById(id: Long) = calendarUnitEntityRepository.deleteById(id)
+    fun deleteById(id: Int) = calendarUnitEntityRepository.deleteById(id)
 
     fun delete(calendarUnitEntity: CalendarUnitEntity) = calendarUnitEntityRepository.delete(calendarUnitEntity)
 

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CalendarUnitEntityRepository : JpaRepository<CalendarUnitEntity, Long> {
+interface CalendarUnitEntityRepository : JpaRepository<CalendarUnitEntity, Int> {
 
     fun getAllBySourceId(sourceId: String, pageable: Pageable): Page<CalendarUnitEntity>
 
