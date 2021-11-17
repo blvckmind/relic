@@ -2,6 +2,7 @@ Relic: Address Book
 ===================
 [![LICENSE](https://badgen.net/github/license/blvckmind/relic)](https://github.com/blvckmind/relic/blob/master/LICENSE)
 [![Build Status](https://github.com/blvckmind/relic/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/blvckmind/relic/actions/workflows/gradle-build.yml)
+[![Сode Analysis](https://github.com/blvckmind/relic/actions/workflows/detekt-analysis.yml/badge.svg)](https://github.com/blvckmind/relic/actions/workflows/detekt-analysis.yml)
 [![Open Issues](https://badgen.net/github/open-issues/blvckmind/relic)](https://github.com/blvckmind/relic/issues)
 [![Last Commit](https://badgen.net/github/last-commit/blvckmind/relic)](#)
 
