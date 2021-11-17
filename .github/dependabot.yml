@@ -6,7 +6,7 @@ updates:
       interval: "weekly"
       day: "monday"
     commit-message:
-      prefix: "[dependabot]"
+      prefix: "dependabot"
     labels:
       - "dependencies"
     reviewers:
