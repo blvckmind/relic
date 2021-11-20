@@ -277,7 +277,14 @@ const app = new Vue({
             this.tools.httpClient.get('/api/person/id/' + id)
                 .then(response => {
                     if (response.data != null) {
-                        this.view_person.data = response.data;
+                        let data = response.data;
+
+                        if (!data.information) {
+                            data.information = "";
+                        }
+
+                        this.view_person.data = data;
+
                         this.view_person.val_get_person.changed = false;
                         this.v_read_info_person();
                         this.content.menu = "open_person";
