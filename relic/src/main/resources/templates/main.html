@@ -77,12 +77,29 @@
                                     </div>
                                     <div>
                                         <button v-on:click="view_person.content_menu = PERSON_CONTENT_MENU.FIELDS"
-                                                class="small pointer"><i class="fas fa-table"></i>
+                                                v-bind:class="{'pointer': view_person.content_menu !== PERSON_CONTENT_MENU.FIELDS}"
+                                                class="small"><i class="fas fa-table"></i>
                                         </button>
 
-                                        <button v-on:click="view_person.content_menu = PERSON_CONTENT_MENU.INFO"
-                                                class="small pointer"><i class="fas fa-book-open"></i>
+                                        <button v-on:click="u_switch_person_info_action_type(); view_person.content_menu = PERSON_CONTENT_MENU.INFO"
+                                                class="small pointer">
+                                            <i v-bind:class="{'fas fa-pen': view.person.info_working_type === PERSON_INFO_VIEW_TYPE.EDITING,
+                                            'fab fa-markdown': view.person.info_working_type === PERSON_INFO_VIEW_TYPE.READING}">
+                                            </i>
                                         </button>
+
+
+<!--                                        <button v-if="view_person.content_menu !== PERSON_CONTENT_MENU.EDIT_INFO"-->
+<!--                                                v-on:click="view_person.content_menu = PERSON_CONTENT_MENU.EDIT_INFO"-->
+<!--                                                class="small pointer"><i class="fas fa-pen"></i>-->
+<!--                                        </button>-->
+
+<!--                                        &lt;!&ndash;v-if="view_person.data.information"&ndash;&gt;-->
+<!--                                        <button v-if="view_person.content_menu === PERSON_CONTENT_MENU.EDIT_INFO"-->
+<!--                                                v-on:click="v_read_info_person(); view_person.content_menu = PERSON_CONTENT_MENU.READ_INFO"-->
+<!--                                                class="small pointer"><i class="fab fa-markdown"></i>-->
+<!--&lt;!&ndash;                                            <i class="far fa-eye"></i>&ndash;&gt;-->
+<!--                                        </button>-->
 
                                         <!--                                        <button v-on:click="view_person.content_menu = PERSON_CONTENT_MENU.CALENDAR"-->
                                         <!--                                                class="small pointer"><i class="fas fa-calendar-alt"></i>-->

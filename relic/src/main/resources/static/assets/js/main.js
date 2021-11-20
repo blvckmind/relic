@@ -1,8 +1,7 @@
-// Vue.component('vue-anka-cropper', VueAnkaCropper);
 const app = new Vue({
     el: "#app",
     components: {
-        "image-cropper": window["VueAnkaCropper"]
+        Editor: VueCodemirror.codemirror
     },
     data: {
         static: {
@@ -14,7 +13,25 @@ const app = new Vue({
             awaiting_search: false,
         },
 
-        httpClient: null,
+        options: {
+            editor: {
+                person: {
+                    tabSize: 4,
+                    styleActiveLine: false,
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    mode: 'markdown'
+                    // theme: 'panda-syntax'
+                }
+            }
+        },
+
+        tools: {
+            markdown_converter: null,
+            httpClient: null,
+            bar: nanoBarGlobal
+        },
+
         page: null,
 
         persons: [],
@@ -46,6 +63,8 @@ const app = new Vue({
                 saving_process: false,
                 interval_id: null,
                 content_menu: PERSON_CONTENT_MENU.INFO,
+                info_working_type: PERSON_INFO_VIEW_TYPE.EDITING,
+                rendered_content: "",
             }
         },
 
@@ -90,7 +109,8 @@ const app = new Vue({
         errored: false,
     },
     created: function () {
-        this.httpClient = axios.create();
+        this.tools.httpClient = axios.create();
+        this.tools.markdown_converter = new showdown.Converter();
 
         /* static: years */
         let currentYear = new Date().getFullYear();
@@ -123,7 +143,7 @@ const app = new Vue({
                 ;
             }
 
-            this.httpClient
+            this.tools.httpClient
                 .post("/api/person/search", params)
                 .then(response => {
                     if (response.data != null && response.data.payload != null && response.data.payload.length > 0) {
@@ -159,7 +179,8 @@ const app = new Vue({
         },
         create_new_person: function () {
             this.add_person.saving = true;
-            axios.post('/api/person/create', this.add_person.data)
+            this.tools.bar.go(60);
+            this.tools.httpClient.post('/api/person/create', this.add_person.data)
                 .then(response => {
                     if (response.data != null) {
                         /* Change content.menu to another one to avoid doubling new person in list */
@@ -184,6 +205,7 @@ const app = new Vue({
                 })
                 .then(() => {
                     this.add_person.saving = false;
+                    this.tools.bar.go(100);
                 });
         },
         open_add_person: function () {
@@ -251,11 +273,13 @@ const app = new Vue({
 
             this.content.title = "Loading " + id + "...";
             this.view_person.val_get_person.error = false;
-            axios.get('/api/person/id/' + id)
+
+            this.tools.httpClient.get('/api/person/id/' + id)
                 .then(response => {
                     if (response.data != null) {
-                        this.view_person.data = response.data
+                        this.view_person.data = response.data;
                         this.view_person.val_get_person.changed = false;
+                        this.v_read_info_person();
                         this.content.menu = "open_person";
                     }
                 })
@@ -273,7 +297,8 @@ const app = new Vue({
             this.val_update_person.error = false;
             this.view_person.button_text = "Saving..."
 
-            axios.put('/api/person/update', this.view_person.data)
+            this.tools.bar.go(70);
+            this.tools.httpClient.put('/api/person/update', this.view_person.data)
                 .then(response => {
                     console.log(response);
                     if (response.data != null) {
@@ -311,10 +336,11 @@ const app = new Vue({
                 .then(() => {
                     this.view_person.saving_process = false;
                     this.view_person.val_get_person.changed = this.val_update_person.error;
+                    this.tools.bar.go(100);
                 });
         },
         delete_person: function (personId, index) {
-            axios.delete("/api/person/delete", {
+            this.tools.httpClient.delete("/api/person/delete", {
                 params: {
                     id: personId
                 }
@@ -361,7 +387,33 @@ const app = new Vue({
             let lastNamePresent = isNotEmpty(this.add_person.data.lastName);
             let patronymicPresent = isNotEmpty(this.add_person.data.patronymic);
             return firstNamePresent || lastNamePresent || patronymicPresent;
+        },
+        v_read_info_person: function () {
+            if (this.view_person.data.information) {
+                this.view.person.rendered_content = this.tools.markdown_converter.makeHtml(this.view_person.data.information)
+            } else if (this.view.person.info_working_type === PERSON_INFO_VIEW_TYPE.READING) {
+                this.view.person.info_working_type = PERSON_INFO_VIEW_TYPE.EDITING
+            }
+        },
+        u_switch_person_info_action_type: function () {
+            if (this.view_person.content_menu === PERSON_CONTENT_MENU.INFO) {
+
+                if (this.view.person.info_working_type === PERSON_INFO_VIEW_TYPE.READING) {
+                    this.view.person.info_working_type = PERSON_INFO_VIEW_TYPE.EDITING
+                } else if (this.view.person.info_working_type === PERSON_INFO_VIEW_TYPE.EDITING) {
+                    this.view.person.rendered_content = this.tools.markdown_converter.makeHtml(this.view_person.data.information)
+                    this.view.person.info_working_type = PERSON_INFO_VIEW_TYPE.READING
+                }
+
+            }
+        },
+        onEditorAddPerson: function (newValue) {
+            this.add_person.data.information = newValue
+        },
+        onEditorViewPerson: function (newValue) {
+            this.view_person.data.information = newValue
         }
+
     },
     watch: {
         'search_params.name': function (_val) {
