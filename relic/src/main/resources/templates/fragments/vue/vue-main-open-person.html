@@ -100,12 +100,30 @@
         </div>
     </div>
 
-    <div v-if="view_person.content_menu == PERSON_CONTENT_MENU.INFO">
-            <textarea id="user_information"
-                      v-model="view_person.data.information"
-                      placeholder="About"
-                      class="text_box full_size transparent_background"
-                      style="resize: none;" name="body"></textarea>
+    <div v-else-if="view_person.content_menu == PERSON_CONTENT_MENU.INFO">
+
+        <div v-if="view.person.info_working_type === PERSON_INFO_VIEW_TYPE.READING">
+            <div class="read_info">
+                <span v-html="view.person.rendered_content"></span>
+            </div>
+        </div>
+
+        <div v-else-if="view.person.info_working_type === PERSON_INFO_VIEW_TYPE.EDITING">
+            <!--            <textarea id="user_information"-->
+            <!--                      v-model="view_person.data.information"-->
+            <!--                      placeholder="About"-->
+            <!--                      class="text_box full_size transparent_background"-->
+            <!--                      style="resize: none;" name="body"></textarea>-->
+            <editor ref="refEditorPerson"
+                    :value="view_person.data.information"
+                    :options="options.editor.person"
+                    @input="onEditorViewPerson"
+                    class="text_box full_size transparent_background">
+            </editor>
+        </div>
+
     </div>
+
+
 
 </div>

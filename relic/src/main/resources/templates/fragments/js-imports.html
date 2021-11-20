@@ -1,25 +1,36 @@
-<script src="/assets/js/nanobar0.4.2.js"></script>
+<script th:src="@{/assets/js/nanobar0.4.2.js}"></script>
 
-<!--<script>-->
-<!--    let nanoBarGlobal = new Nanobar({-->
-<!--        classname: 'my-class',-->
-<!--        id: 'my-id',-->
-<!--        target: document.getElementById('myDivId')-->
-<!--    });-->
-<!--    nanoBarGlobal.go(10);-->
-<!--</script>-->
+<script>
+    let nanoBarGlobal = new Nanobar({
+        classname: 'my-class',
+        id: 'my-id',
+        target: document.getElementById('myDivId')
+    });
+    // nanoBarGlobal.go(10);
+</script>
 
-<script src="/assets/js/jquery3.5.1.js"></script>
+<script th:src="@{/assets/js/showdown/1.9.1/showdown.min.js}"></script>
 
-<script src="/assets/winbox/winbox.min.js"></script>
+<script th:src="@{/assets/js/jquery3.5.1.js}"></script>
 
-<script src="/assets/js/global_vars.js"></script>
-<script src="/assets/js/utils.js"></script>
+<script th:src="@{/assets/winbox/winbox.min.js}"></script>
 
-<script type="text/javascript" src="/assets/js/vue2.6.12.js"></script>
+<script th:src="@{/assets/js/global_vars.js}"></script>
+<script th:src="@{/assets/js/utils.js}"></script>
 
-<script type="text/javascript" src="https://unpkg.com/vue-anka-cropper/dist/VueAnkaCropper.umd.min.js"></script>
+<script th:src="@{/assets/js/vue2.6.12.js}"></script>
 
-<script src="/assets/js/axios0.21.1.js"></script>
+<script th:src="@{/assets/js/axios0.21.1.js}"></script>
 
-
+<!-- Codemirror Libs -->
+<script th:src="@{/assets/js/codemirror/5.32.0/codemirror.min.js}"></script>
+<!-- Codemirror JS Vue -->
+<script th:src="@{/assets/js/vue-codemirror/4.0.6/vue-codemirror.min.js}"></script>
+<!-- Codemirror Addons -->
+<script th:src="@{/assets/js/codemirror/5.32.0/addon/merge/merge.min.js}"></script>
+<script th:src="@{/assets/js/codemirror/5.32.0/addon/selection/active-line.min.js}"></script>
+<script th:src="@{/assets/js/codemirror/5.32.0/addon/dialog/dialog.min.js}"></script>
+<script th:src="@{/assets/js/codemirror/5.32.0/addon/search/search.min.js}"></script>
+<!-- Codemirror Modes -->
+<script th:src="@{/assets/js/codemirror/5.32.0/mode/clike/clike.min.js}"></script>
+<script th:src="@{/assets/js/codemirror/5.32.0/mode/markdown/markdown.min.js}"></script>

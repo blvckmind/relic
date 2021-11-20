@@ -133,4 +133,6 @@ input[class~="purge_input"]::-webkit-search-cancel-button, input[type~="search"]
     display: none;
 }
 
-
+.CodeMirror-linenumber {
+    color: #e3e5e8 !important;
+}
