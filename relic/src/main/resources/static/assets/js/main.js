@@ -125,49 +125,6 @@ const app = new Vue({
         window.vue_instance = this;
     },
     methods: {
-        fetchPersons: function (resume) {
-            this.view_person.person_index = null;
-            if (!resume) {
-                this.persons = [];
-            }
-
-            let params = new URLSearchParams();
-
-            if (this.search_params.name != null) {
-                params.append('name', this.search_params.name);
-            }
-
-            if (this.search_params.page != null) {
-                params.append('page',
-                    this.search_params.page > 0 ? this.search_params.page : 1)
-                ;
-            }
-
-            this.tools.httpClient
-                .post("/api/person/search", params)
-                .then(response => {
-                    if (response.data != null && response.data.payload != null && response.data.payload.length > 0) {
-                        if (this.persons && resume) {
-                            Array.prototype.push.apply(this.persons, response.data.payload);
-                        } else {
-                            this.persons = response.data.payload;
-                        }
-                        this.util.next_locked = false;
-                    } else {
-                        this.util.next_locked = true;
-                        if (this.search_params.page > 1) {
-                            this.search_params.page = 1;
-                            this.fetchPersons(false);
-                        }
-                    }
-                    this.loaded = true;
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.drawError(error);
-                });
-
-        },
         open_person: function (id, name, on_force_close) {
             if (!this.open_windows.has(id)) {
                 this.open_windows.set(id, get_win_box(name, "/person/" + id, true, true, on_force_close));
@@ -176,37 +133,6 @@ const app = new Vue({
                 window.minimize(false);
                 window.focus();
             }
-        },
-        create_new_person: function () {
-            this.add_person.saving = true;
-            this.tools.bar.go(60);
-            this.tools.httpClient.post('/api/person/create', this.add_person.data)
-                .then(response => {
-                    if (response.data != null) {
-                        /* Change content.menu to another one to avoid doubling new person in list */
-                        this.content.menu = null;
-                        /* Adding new person to the list */
-                        this.persons.unshift({
-                            id: response.data.id,
-                            firstName: response.data.firstName,
-                            lastName: response.data.lastName,
-                            patronymic: response.data.patronymic,
-                            photoId: response.data.photoId,
-                            color: response.data.color
-                        });
-                        /* End of adding new person to the list */
-                        this.u_clean_add_person_data();
-                        this.get_person(response.data.id, 0);
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.drawError(error);
-                })
-                .then(() => {
-                    this.add_person.saving = false;
-                    this.tools.bar.go(100);
-                });
         },
         open_add_person: function () {
             get_win_box("Add person", "/person/add", false, true, force => {
@@ -249,128 +175,25 @@ const app = new Vue({
                 this.content.menu = 'add_person';
             }
         },
+
+        /* Person CRUD */
+        fetchPersons: function (resume) {
+            PERSON_API.get_all(this, resume);
+        },
+        create_new_person: function () {
+            PERSON_API.create(this);
+        },
         get_person: function (id, index) {
-            let isSamePerson = id === this.view_person.data.id;
-            let isOpenPersonMenu = this.content.menu === 'open_person';
-
-            if (isOpenPersonMenu && isSamePerson) {
-                return;
-            }
-
-            if (isOpenPersonMenu && this.view_person.val_get_person.changed) {
-                this.draw_modal_unsaved_person(
-                    getShortName(this.view_person.data, false, false),
-                    this.view_person.val_get_person.id,
-                    this.view_person.person_index
-                );
-                return;
-            }
-
-            clearInterval(this.view_person.interval_id);
-            this.view_person.button_text = "Save updates";
-            this.view_person.save_time_updating = false;
-            this.view_person.person_index = index;
-
-            this.content.title = "Loading " + id + "...";
-            this.view_person.val_get_person.error = false;
-
-            this.tools.httpClient.get('/api/person/id/' + id)
-                .then(response => {
-                    if (response.data != null) {
-                        let data = response.data;
-
-                        if (!data.information) {
-                            data.information = "";
-                        }
-
-                        this.view_person.data = data;
-
-                        this.view_person.val_get_person.changed = false;
-                        this.v_read_info_person();
-                        this.content.menu = "open_person";
-                    }
-                })
-                .catch(error => {
-                    this.view_person.val_get_person.error = true;
-                    console.log(error);
-                    this.drawError(error);
-                })
-                .then(() => {
-                    this.view_person.val_get_person.changed = this.view_person.val_get_person.error;
-                });
+            PERSON_API.get(id, index, this);
         },
         update_person: function () {
-            this.view_person.saving_process = true;
-            this.val_update_person.error = false;
-            this.view_person.button_text = "Saving..."
-
-            this.tools.bar.go(70);
-            this.tools.httpClient.put('/api/person/update', this.view_person.data)
-                .then(response => {
-                    console.log(response);
-                    if (response.data != null) {
-                        this.view_person.data = response.data;
-
-                        let person_save_time = new Date();
-                        this.view_person.save_time = person_save_time;
-                        this.view_person.button_text = "Saved at " + person_save_time.toISOString().substr(11, 5);
-
-                        /* Updating name in list */
-                        let personIndex = this.view_person.person_index;
-                        if (this.persons.length > personIndex && this.persons[personIndex] !== undefined) {
-                            let exist_id = this.persons[personIndex].id
-                            if (exist_id === this.view_person.data.id) {
-                                this.persons[personIndex].firstName = this.view_person.data.firstName;
-                                this.persons[personIndex].lastName = this.view_person.data.lastName;
-                                this.persons[personIndex].patronymic = this.view_person.data.patronymic;
-                                this.persons[personIndex].photoId = this.view_person.data.photoId;
-                            }
-                        }
-                        /* End of Updating name in list */
-
-                        if (!this.view_person.save_time_updating) {
-                            this.view_person.save_time_updating = true;
-                            this.view_person.interval_id = window.setInterval(this.button_update_second, 10000);
-                        }
-                    }
-                })
-                .catch(error => {
-                    this.val_update_person.error = true;
-                    this.view_person.button_text = "[x] Error (Time: " + new Date().toISOString().substr(11, 8) + ")";
-                    console.log(error);
-                    this.drawError(error);
-                })
-                .then(() => {
-                    this.view_person.saving_process = false;
-                    this.view_person.val_get_person.changed = this.val_update_person.error;
-                    this.tools.bar.go(100);
-                });
+            PERSON_API.update(this);
         },
         delete_person: function (personId, index) {
-            this.tools.httpClient.delete("/api/person/delete", {
-                params: {
-                    id: personId
-                }
-            }).catch(error => {
-                console.log(error);
-                this.drawError(error);
-            }).then(response => {
-                console.log(response);
-                this.persons.splice(index, 1);
-                this.content.menu = "all_projects";
-            });
-
+            PERSON_API.delete(this, personId, index);
         },
-        button_update_second: function () {
-            let endTime = new Date();
-            let timeDiff = endTime - this.view_person.save_time; //in ms
-            // strip the ms
-            timeDiff /= 1000;
+        /* End: Person CRUD */
 
-            // get seconds
-            let seconds = Math.round(timeDiff);
-            this.view_person.button_text = "Saved " + seconds + " seconds ago"
-        },
         u_get_short_name: function (person, new_person = false, short_lastname = true) {
             return getShortName(person, new_person, short_lastname)
         },

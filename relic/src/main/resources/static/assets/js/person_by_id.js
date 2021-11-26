@@ -46,7 +46,6 @@ const app = new Vue({
                         this.button_text = "Saved at " + new Date().toISOString().substr(11, 5);
                         if (!this.save_time_updating) {
                             this.save_time_updating = true;
-                            window.setInterval(this.button_update_second, 10000);
                         }
                     }
                 })
@@ -57,16 +56,6 @@ const app = new Vue({
                 .then(() => {
                     this.saving_process = false;
                 });
-        },
-        button_update_second: function () {
-            let endTime = new Date();
-            let timeDiff = endTime - this.save_time; //in ms
-            // strip the ms
-            timeDiff /= 1000;
-
-            // get seconds
-            let seconds = Math.round(timeDiff);
-            this.button_text = "Saved " + seconds + " seconds ago"
         },
         draw_ui: function () {
         },
