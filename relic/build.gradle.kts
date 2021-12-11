@@ -31,7 +31,7 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    implementation("net.coobird:thumbnailator:0.4.14")
+    implementation("net.coobird:thumbnailator:0.4.15")
 }
 
 tasks.withType<KotlinCompile> {
