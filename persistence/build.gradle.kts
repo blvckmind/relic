@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.6.0"
-    kotlin("plugin.jpa") version "1.6.0"
+    kotlin("plugin.jpa") version "1.7.10"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
